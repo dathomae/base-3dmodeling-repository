@@ -16,10 +16,7 @@ This directory contains story files for the project. Each story represents a pla
 **[Story007_python-structure-and-setup.md](Story007_python-structure-and-setup.md)** — _Done_
 : Establish the Python src/-layout package (pyproject.toml + scaffold example + test), setup scripts, MIT LICENSE, and GETTINGSTARTED/README; delete requirements.txt.
 
-**[Story008_tooling-generalization.md](Story008_tooling-generalization.md)** — _Done_
-: Generalize the PDD scripts and rule files: drop Chronocone/Go references, set Python defaults (python -m pytest/build), and update organization.md and mock.md.
-
-**[Story009_template-verification.md](Story009_template-verification.md)** — _Not Started_
+**[Story009_template-verification.md](Story009_template-verification.md)** — _Done_
 : Verify the template end-to-end from a clean state: ./setup.sh succeeds, python -m pytest passes, the example CLI emits a .step, and git status is clean.
 
 **[Story010_stories-reset.md](Story010_stories-reset.md)** — _Not Started_
@@ -32,3 +29,4 @@ This directory contains story files for the project. Each story represents a pla
 | [Story001_face-plate-layout-refactor.md](../finished-stories/Story001_face-plate-layout-refactor.md) | Refactor the face-plate builder so candle-hole placement is driven by a pluggable layout strategy, adding a --layout CLI option with circular as the default. | Done |
 | [Story002_downward-arc-layout.md](../finished-stories/Story002_downward-arc-layout.md) | Add the `downward_arc_layout` face-plate candle arrangement (two symmetric circular arcs, 4 per side) with its continuous embossed arc line, per the arc design doc, with unit tests and verification. | Done |
 | [Story003_nine-inch-face-single-arc.md](../finished-stories/Story003_nine-inch-face-single-arc.md) | Enlarge the face plates to 9-inch equilateral triangles for all layouts and revise the downward_arc_layout to a single concave-down circular arc carrying all 8 candles. | Done |
+| [Story008_tooling-generalization.md](../finished-stories/Story008_tooling-generalization.md) | Generalize the PDD scripts and rule files: drop Chronocone/Go references, set Python defaults (python -m pytest/build), and update organization.md and mock.md. | Done |
