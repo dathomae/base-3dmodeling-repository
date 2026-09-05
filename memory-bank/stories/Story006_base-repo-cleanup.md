@@ -87,7 +87,7 @@ Architect note (decomposition): one file, one mechanical row removal, single con
    b. Keep the remaining rows (`apis/`, `code_review/`, `templates/`, `writing_resources/`) unchanged.
    c. Verify: `grep -niE "chanukah|halacha|menorah" resources/toc.md` returns nothing, and the table still lists all four preserved directories.
 
-### Task 4: Write project-agnostic memory-bank skeleton docs (plan Step 2a + 2c) — Not Started
+### Task 4: Write project-agnostic memory-bank skeleton docs (plan Step 2a + 2c) — In Progress
 
 Architect note (decomposition): six skeleton files forming one semantic unit — each must match the structure documented in `.kilocode/rules/organization.md` (brief, requirements, context, concepts, terms, lessons-learned, bugs, design/, stories/ + finished-stories/, plans/) and use consistent header + placeholder conventions. This is the "single coordinated mechanical change across many files — keep as one task" case; splitting per-file would force each subtask to re-derive the full skeleton convention with no isolation benefit. The plan's sub-step 2(c) (leave `bugs.md` as-is) is folded in as a verification subtask. Not `[Small]`.
 
@@ -103,7 +103,7 @@ Architect note (decomposition): six skeleton files forming one semantic unit —
 3. Verify the skeleton set - Not Started
    a. Each of the six files is a valid, self-describing skeleton (header + placeholder); `concepts.md` and `terms.md` contain only header rows; `grep -rniE "menorah|candle|octahedron|manora|chanukah|halacha|hanukkah" memory-bank/brief.md memory-bank/requirements.md memory-bank/context.md memory-bank/concepts.md memory-bank/terms.md memory-bank/design/design.md` returns nothing.
 
-### Task 5: Prune and generalize `memory-bank/lessons-learned.md` (plan Step 2b) — Not Started [Small]
+### Task 5: Prune and generalize `memory-bank/lessons-learned.md` (plan Step 2b) — In Progress [Small]
 
 Architect note (decomposition): one file, one concern (make the lessons table project-agnostic) — keep the generic rows and generalize the single menora row. `[Small]`.
 
