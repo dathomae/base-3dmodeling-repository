@@ -46,7 +46,7 @@ The architect-for-story-planning reviewed the decomposition, sizing, and paralle
 - **Task 4** is **not** `[Small]`: six skeleton files forming one semantic unit — every skeleton must match the structure documented in `.kilocode/rules/organization.md` and use consistent header + placeholder conventions. A coordinated multi-file rewrite kept as one task per the architect rules. Routes to `technical-writer-for-story-implementor`.
 - **Task 5** is annotated `[Small]`: one file (`memory-bank/lessons-learned.md`), one concern (make it project-agnostic: keep generic rows, generalize the one menora row). Routes to `small-code-for-story-implementor`.
 
-### Task 1: Delete the menora memory-bank and resources content (plan Step 1a + 1b) — In Progress
+### Task 1: Delete the menora memory-bank and resources content (plan Step 1a + 1b) — Completed
 
 Architect note (decomposition): a single coordinated mechanical deletion across ~17 tracked files and 2 directories, with the plan's lettered sub-steps 1(a) and 1(b) preserved as subtasks. The 7 plan files and `resources/chanukah-halacha/` are already deleted in the working tree (uncommitted) — this task captures those deletions, it does **not** re-create content. Splitting per-file would create merge conflicts with no isolation benefit; keep as one task. Not `[Small]`.
 
@@ -78,7 +78,7 @@ Architect note (decomposition): a git-index operation, not a file edit. `.kilo/w
    e. **Deferred by design**: the plan's Step 1(c) also says "record `.kilo/worktrees/` in `.gitignore`", but no `.gitignore` exists at this point — it is created in plan Step 4(d) (Story007), which already includes `.kilo/worktrees/` in its ignore list. Do **not** create `.gitignore` in this story. (`.kilo/worktrees/` is already excluded locally via `.git/info/exclude`.)
    f. ~~Note for the remainder of the arc~~ — superseded: because the tracked `worktrees` symlink is retained, later task handoffs continue to use `worktrees/<sanitized_feature_branch>-task-N` symlink paths (never `.kilo/...` paths).
 
-### Task 3: Remove the `chanukah-halacha/` row from `resources/toc.md` (plan Step 1d) — In Progress [Small]
+### Task 3: Remove the `chanukah-halacha/` row from `resources/toc.md` (plan Step 1d) — Completed [Small]
 
 Architect note (decomposition): one file, one mechanical row removal, single concern — `[Small]`. File-disjoint from Tasks 1 and 2, so it joins Group A.
 
