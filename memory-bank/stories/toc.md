@@ -16,7 +16,7 @@ This directory contains story files for the project. Each story represents a pla
 **[Story007_python-structure-and-setup.md](Story007_python-structure-and-setup.md)** — _Done_
 : Establish the Python src/-layout package (pyproject.toml + scaffold example + test), setup scripts, MIT LICENSE, and GETTINGSTARTED/README; delete requirements.txt.
 
-**[Story008_tooling-generalization.md](Story008_tooling-generalization.md)** — _Not Started_
+**[Story008_tooling-generalization.md](Story008_tooling-generalization.md)** — _Done_
 : Generalize the PDD scripts and rule files: drop Chronocone/Go references, set Python defaults (python -m pytest/build), and update organization.md and mock.md.
 
 **[Story009_template-verification.md](Story009_template-verification.md)** — _Not Started_
