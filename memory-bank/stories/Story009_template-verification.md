@@ -40,7 +40,7 @@ The architect-for-story-planning reviewed the decomposition, sizing, and paralle
 - **Task 4** is **not** `[Small]`: a review-and-record task with a five-part checklist (`git status`, `git ls-files` present/absent audit, two content sweeps with documented exclusion scoping, and the `memory-bank/context.md` record). It is writing/review work, not code, and routes to the `technical-writer-for-story-implementor` agent.
 - **No `[Small]` annotations anywhere**: none of the four tasks is a small code change, and the architect rule is "when in doubt, do NOT mark `[Small]`." Tasks 1–3 route to `code-for-story-implementor` (the Story004 precedent routes run-only verification gates to the code agent); Task 4 routes to `technical-writer-for-story-implementor`.
 
-### Task 1: Run `./setup.sh` from a clean state and verify the environment (plan 8a) — Not Started
+### Task 1: Run `./setup.sh` from a clean state and verify the environment (plan 8a) — In Progress
 
 Architect note (decomposition): at its natural granularity — a single run-and-verify gate. The subtasks flow linearly (prepare clean state → run setup → verify environment → verify gitignore hygiene → STOP-on-failure reporting) with no self-contained preamble and no intermediate verification cycle worth splitting; splitting the preparation from the run would create an artificial seam with zero isolation benefit. **Not `[Small]`** (environment reasoning, gate semantics, 5 subtasks). Routes to `code-for-story-implementor`.
 
