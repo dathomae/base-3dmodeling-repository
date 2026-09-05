@@ -51,7 +51,7 @@ Architect note (decomposition): at its natural granularity — a single run-and-
    d. Verify first-run hygiene: `git status --porcelain` still reports no changes after the run, and `git check-ignore -v .venv/` prints the `.venv/` rule from the `.gitignore` Story007 wrote — proving `.venv/`, `__pycache__/`, and `*.egg-info/` are all ignored and that a fresh `./setup.sh` does not dirty the tree. - Completed
    e. STOP-on-failure: if any check in b–d fails, record the exact command, the observed output, and the expected result; do **not** modify any tracked file to make the gate pass. A failing `./setup.sh` is a defect in Story007's deliverable — report it to the story-implementor, which stops the story and surfaces it to the user. - Completed
 
-### Task 2: Run `python -m pytest` and confirm the suite is green (plan 8b) — Not Started
+### Task 2: Run `python -m pytest` and confirm the suite is green (plan 8b) — In Progress
 
 Architect note (decomposition): at its natural granularity — a single run-and-verify gate sequentially dependent on Task 1's semantics (pytest is meaningless on a tree whose setup failed). Because `.venv` is gitignored, environment state does not carry between task worktrees, so the task re-establishes the environment itself — this also re-verifies `./setup.sh` reproducibility from clean state. **Not `[Small]`**. Routes to `code-for-story-implementor`.
 
