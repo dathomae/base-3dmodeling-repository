@@ -116,7 +116,7 @@ This script is executed by the **technical-writer** agent, assisted by the **arc
        **Group A (Tasks 3, 4):**
        - Merge order: Task 3 first (modifies Makefile — shared infrastructure), then Task 4
        - Integration tests: `python -m pytest tests/test_evaluator.py` — verify combined evaluator behavior
-       - Watch for conflicts in: `go.sum` (dependency resolution may differ per worktree)
+       - Watch for conflicts in: `poetry.lock` / `uv.lock` / `Pipfile.lock` (dependency resolution may differ per worktree)
        
        **Group B (Tasks 7, 8):**
        - Merge order: any order (fully disjoint packages, no shared infrastructure)

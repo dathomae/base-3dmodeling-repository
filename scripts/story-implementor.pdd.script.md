@@ -66,7 +66,7 @@ You are violating the handoff protocol if you:
 
 - Consider using the Edit or Write tool for anything other than the story file or toc.md
 - Start thinking about "how I would implement this" rather than "what the sub-agent needs to know to implement this"
-- Consider running `python -m pytest`, `npm test`, or any test runner beyond pre-work baseline establishment (testing belongs to the sub-agent)
+- Consider running `python -m pytest` or any configured test runner beyond pre-work baseline establishment (testing belongs to the sub-agent)
 - Read a source file and then immediately try to modify it (reading is for instruction construction only)
 - Apply review feedback directly instead of creating a NEW AGENT TASK for the implementor
 
@@ -128,17 +128,16 @@ For **pure refactoring tasks** (moving code between files, renaming, reorganizin
 
 4. **code-reviewer-for-story-implementor/technical-editor-for-story-implementor → story-implementor**: After completing the review, the review agent creates a **NEW AGENT TASK** passing control back to the story-implementor with review recommendations, which the story-implementor then applies.
 
-| Name           | Type   | Description                                                                             | Required | Default Value |
-| -------------- | ------ | --------------------------------------------------------------------------------------- | -------- | ------------- |
-| story_file     | string | The name of the story file to process (e.g., "Story005_database-initialization-cli.md") | Yes      | N/A           |
-| feature_branch | string | The local feature branch to use as the base for all worktrees (e.g., "story/005")       | Yes      | N/A           |
-
-| feature_branch_sanitized | string | Derived: `<feature_branch>` with all `/` characters replaced by `-`, for use in git branch and worktree names (Git can become confused by `/` in branch names). | N/A | Derived automatically |
-| checkpoint_mode | string | When to pause for user approval: `"every"` (after each task), `"none"` (run to completion), or a task number (e.g., `"5"` to stop after Task 5) | No | `"every"` |
-| source_root | string | Root directory for build/test commands, defaulting to the repository root (.) | No | Repository root (.) — Python default; overridden by user at the Operation 4b confirmation prompt for non-Python repositories |
-| build_command | string | Command to build the project (e.g., `python -m build`) | No | `python -m build` — Python default; overridden at the Operation 4b confirmation prompt for non-Python repositories |
-| test_command | string | Command to run the full test suite (e.g., `python -m pytest`) | No | `python -m pytest` — Python default; overridden at the Operation 4b confirmation prompt for non-Python repositories |
-| review_iteration_limit | number | Maximum review-fix iterations per task before stopping and asking the user for guidance | No | 3 |
+| Name                     | Type   | Description                                                                                                                                                     | Required | Default Value                                                                                                                |
+| ------------------------ | ------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------- | ---------------------------------------------------------------------------------------------------------------------------- |
+| story_file               | string | The name of the story file to process (e.g., "Story005_database-initialization-cli.md")                                                                         | Yes      | N/A                                                                                                                          |
+| feature_branch           | string | The local feature branch to use as the base for all worktrees (e.g., "story/005")                                                                               | Yes      | N/A                                                                                                                          |
+| feature_branch_sanitized | string | Derived: `<feature_branch>` with all `/` characters replaced by `-`, for use in git branch and worktree names (Git can become confused by `/` in branch names). | N/A      | Derived automatically                                                                                                        |
+| checkpoint_mode          | string | When to pause for user approval: `"every"` (after each task), `"none"` (run to completion), or a task number (e.g., `"5"` to stop after Task 5)                 | No       | `"every"`                                                                                                                    |
+| source_root              | string | Root directory for build/test commands, defaulting to the repository root (.)                                                                                   | No       | Repository root (.) — Python default; overridden by user at the Operation 4b confirmation prompt for non-Python repositories |
+| build_command            | string | Command to build the project (e.g., `python -m build`)                                                                                                          | No       | `python -m build` — Python default; overridden at the Operation 4b confirmation prompt for non-Python repositories           |
+| test_command             | string | Command to run the full test suite (e.g., `python -m pytest`)                                                                                                   | No       | `python -m pytest` — Python default; overridden at the Operation 4b confirmation prompt for non-Python repositories          |
+| review_iteration_limit   | number | Maximum review-fix iterations per task before stopping and asking for guidance                                                                                  | No       | 3                                                                                                                            |
 
 ## Operations
 
