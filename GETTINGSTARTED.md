@@ -1,6 +1,6 @@
 # Getting Started
 
-This repository is a template for code-first, parametric 3D-modeling projects built on build123d, the Python CAD library. A template exists so you can derive a new repository from it (section 1), rename the placeholder package (section 4), and then describe models in Python, export them as STEP files, and manufacture them with a slicer or a CAM tool (sections 2 and 3).
+This repository is a template for code-first, parametric 3D-modeling projects built on build123d, the Python CAD library. A template exists so you can derive a new repository from it (section 1) and rename the placeholder package (section 4). Sections 2 and 3 then show the workflow the template supports: describe models in Python, export them as STEP files, and manufacture them with a slicer or a CAM tool.
 
 The template is self-verifying. It ships a `src/scaffold/` package that builds a 10 mm cube, a pytest test suite for that package, a setup script that creates the Python environment, and this guide. Section 5 describes the plan-and-story workflow used to run this repository, and section 6 covers viewing models while you design.
 
@@ -90,7 +90,7 @@ export_step(box, "manufacture/my_part.step")
 
 The example CLI performs exactly this export for the scaffold box. Write STEP files into `manufacture/`, the repository's output directory for generated models.
 
-**Manufacture from the STEP file.** A slicer (for 3D printing) or a CAM package (for subtractive machining) imports the STEP file and computes the tool paths or print layers from that geometry. The units in this template's models are millimetres, which matches how the example's 10 mm box is specified.
+**Manufacture from the STEP file.** A slicer (for 3D printing) or a CAM package (for subtractive machining) imports the STEP file and computes the tool paths or print layers from that geometry. The units in this template's models are millimeters, which matches how the example's 10 mm box is specified.
 
 Keeping models parametric and exporting to a neutral format means you regenerate rather than redraw: when the design changes, you edit the parameters and re-run, then re-import the fresh STEP file. The template exercises this loop end to end: the tests pin down `make_box()`'s geometry, the CLI writes `manufacture/scaffold_box.step`, and a slicer or CAM tool can open that file.
 
@@ -112,13 +112,13 @@ Keeping models parametric and exporting to a neutral format means you regenerate
    ```
 
    to import from your package instead.
-4. Sweep the tree for any remaining `scaffold` references, in docstrings, help text, and comments, and update the ones that name the package:
+4. Sweep the source and tests for any remaining `scaffold` references, in docstrings, help text, and comments, and update the ones that name the package:
 
    ```bash
-   grep -rn "scaffold" . --exclude-dir=.git --exclude-dir=.venv
+   grep -rn "scaffold" src tests
    ```
 
-   The example module's default output filename (`scaffold_box.step`) is independent of the package name; keep it or change it as you like.
+   The sweep stays out of the documentation: this guide and `README.md` mention the placeholder name on purpose, and the editable install leaves `*.egg-info` metadata (gitignored) behind that is regenerated on the next install. The example module's default output filename (`scaffold_box.step`) is independent of the package name; keep it or change it as you like.
 5. Reinstall and re-test so the manifest and the layout agree:
 
    ```bash
@@ -126,7 +126,7 @@ Keeping models parametric and exporting to a neutral format means you regenerate
    python -m pytest
    ```
 
-If you rename `example.py` itself, or replace it with your own module, remember that `python -m scaffold.example` changes to match the new module path, and update this guide's references accordingly.
+Renaming the package in step 1 changes the module path on its own: the command in section 2 becomes `python -m <your_package>.example`, and the import in section 6 becomes `from <your_package>.example import make_box`. If you also rename `example.py` itself, or replace it with your own module, update those references again to match the new module path.
 
 ## 5. The plan-and-story workflow in memory-bank
 
@@ -134,7 +134,7 @@ This repository plans and tracks its work in `memory-bank/`, and the layout is d
 
 A **plan file** lives in `memory-bank/plans/` and carries a name of the form `<objective>_plan.md`. It states one objective and gives a step-by-step plan to reach it. Plans are executed across several tasks, with the result reviewed at the end of each step.
 
-A **story** lives in `memory-bank/stories/` as one markdown file per chunk of work, named `StoryNNN_<short-purpose>.md`. Stories break a large plan into smaller, executable pieces; each story contains its own tasks, dependencies, acceptance criteria, and execution order. The table of contents in `memory-bank/stories/toc.md` lists every story with its state (Not Started, In Progress, or Done). When a story's tasks are all complete, the story file moves to `memory-bank/stories/finished-stories/` and its `toc.md` entry moves to the finished list. The story file format is defined in `resources/templates/stories.md`.
+A **story** lives in `memory-bank/stories/` as one markdown file per chunk of work, named `StoryNNN_<short-purpose>.md`. Stories break a large plan into smaller, executable pieces; each story contains its own tasks, dependencies, acceptance criteria, and execution order. The table of contents in `memory-bank/stories/toc.md` lists every story with its state (Not Started, In Progress, or Done). When a story's tasks are all complete, the story file moves to `memory-bank/finished-stories/` and its `toc.md` entry moves to the finished list. The story file format is defined in `resources/templates/stories.md`.
 
 Execution follows the repository's prompt-driven-development scripts in `scripts/`. The story-implementor runs a story by following `scripts/story-implementor.pdd.script.md`, delegating each task to a specialized agent (a code agent, a technical writer, and so on) and routing results back to the story's branch. New stories are generated with `scripts/add-new-story.pdd.script.md`. The other `memory-bank/` documents hold the project's living state: `brief.md`, `requirements.md`, `context.md`, `concepts.md`, `terms.md`, `lessons-learned.md`, and `bugs.md`, plus design notes under `memory-bank/design/`.
 
@@ -150,13 +150,13 @@ ocp_vscode is optional, and `setup.sh` deliberately does not install it: the tem
 2. Install the `ocp_vscode` Python package into the virtual environment if you want to show parts from code. This install is for your environment only and does not touch `pyproject.toml`:
 
    ```bash
-   pip install ocp_vscode
+   .venv/bin/pip install ocp_vscode
    ```
 
 3. Start the viewer's server in the background. It listens on port 3939, so if that port is already in use, a server is already running and you can skip this step:
 
    ```bash
-   python -m ocp_vscode &
+   .venv/bin/python -m ocp_vscode &
    ```
 
 4. Add a `show` call to your modeling code, then run that code:
