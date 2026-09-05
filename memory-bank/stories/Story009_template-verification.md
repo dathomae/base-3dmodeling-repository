@@ -51,15 +51,15 @@ Architect note (decomposition): at its natural granularity — a single run-and-
    d. Verify first-run hygiene: `git status --porcelain` still reports no changes after the run, and `git check-ignore -v .venv/` prints the `.venv/` rule from the `.gitignore` Story007 wrote — proving `.venv/`, `__pycache__/`, and `*.egg-info/` are all ignored and that a fresh `./setup.sh` does not dirty the tree. - Completed
    e. STOP-on-failure: if any check in b–d fails, record the exact command, the observed output, and the expected result; do **not** modify any tracked file to make the gate pass. A failing `./setup.sh` is a defect in Story007's deliverable — report it to the story-implementor, which stops the story and surfaces it to the user. - Completed
 
-### Task 2: Run `python -m pytest` and confirm the suite is green (plan 8b) — In Progress
+### Task 2: Run `python -m pytest` and confirm the suite is green (plan 8b) — Completed
 
 Architect note (decomposition): at its natural granularity — a single run-and-verify gate sequentially dependent on Task 1's semantics (pytest is meaningless on a tree whose setup failed). Because `.venv` is gitignored, environment state does not carry between task worktrees, so the task re-establishes the environment itself — this also re-verifies `./setup.sh` reproducibility from clean state. **Not `[Small]`**. Routes to `code-for-story-implementor`.
 
-1. Run the full test suite and confirm it passes from a clean environment - Not Started
-   a. Re-establish the clean environment exactly as in Task 1 subtasks a–b: fresh worktree from the story's feature branch, no `.venv/` residue (remove it if the bootstrap created one), then `./setup.sh` must exit 0 again. - Not Started
-   b. Run the project test command from the repo root: `.venv/bin/python -m pytest` (equivalently `source .venv/bin/activate && python -m pytest`). This is the template's `test_command` (the generalized default the story-implementor uses for Python stories). - Not Started
-   c. Interpret the result as a gate: exit code 0 and a passing summary — at least the tests Story007 wrote in `tests/test_example.py` (the `make_box()` bounding-box assertions) must be collected and pass, with zero failures, zero errors, and zero collection errors. Record the exact pass/fail counts from the summary line. - Not Started
-   d. STOP-on-failure per Task 1 subtask e: a red suite here is a defect in Story007's package, test, or `pyproject.toml` — record the failing test names and output, do not edit any file to make the suite green, and report. - Not Started
+1. Run the full test suite and confirm it passes from a clean environment - Completed
+   a. Re-establish the clean environment exactly as in Task 1 subtasks a–b: fresh worktree from the story's feature branch, no `.venv/` residue (remove it if the bootstrap created one), then `./setup.sh` must exit 0 again. - Completed
+   b. Run the project test command from the repo root: `.venv/bin/python -m pytest` (equivalently `source .venv/bin/activate && python -m pytest`). This is the template's `test_command` (the generalized default the story-implementor uses for Python stories). - Completed
+   c. Interpret the result as a gate: exit code 0 and a passing summary — at least the tests Story007 wrote in `tests/test_example.py` (the `make_box()` bounding-box assertions) must be collected and pass, with zero failures, zero errors, and zero collection errors. Record the exact pass/fail counts from the summary line. - Completed
+   d. STOP-on-failure per Task 1 subtask e: a red suite here is a defect in Story007's package, test, or `pyproject.toml` — record the failing test names and output, do not edit any file to make the suite green, and report. - Completed
 
 ### Task 3: Run the example CLI and confirm a `.step` lands in `manufacture/` (plan 8c) — Not Started
 
