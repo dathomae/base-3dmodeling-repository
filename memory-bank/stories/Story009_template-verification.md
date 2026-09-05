@@ -61,7 +61,7 @@ Architect note (decomposition): at its natural granularity — a single run-and-
    c. Interpret the result as a gate: exit code 0 and a passing summary — at least the tests Story007 wrote in `tests/test_example.py` (the `make_box()` bounding-box assertions) must be collected and pass, with zero failures, zero errors, and zero collection errors. Record the exact pass/fail counts from the summary line. - Completed
    d. STOP-on-failure per Task 1 subtask e: a red suite here is a defect in Story007's package, test, or `pyproject.toml` — record the failing test names and output, do not edit any file to make the suite green, and report. - Completed
 
-### Task 3: Run the example CLI and confirm a `.step` lands in `manufacture/` (plan 8c) — Not Started
+### Task 3: Run the example CLI and confirm a `.step` lands in `manufacture/` (plan 8c) — In Progress
 
 Architect note (decomposition): at its natural granularity — a single run-and-verify gate sequentially dependent on Tasks 1–2 (the CLI requires the installed package and a passing baseline). It re-establishes the environment (clean-state reproducibility), runs the documented example CLI, and checks both the artifact and the `manufacture/*.step` gitignore rule. **Not `[Small]`**. Routes to `code-for-story-implementor`.
 
