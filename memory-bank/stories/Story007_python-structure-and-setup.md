@@ -42,7 +42,7 @@ The architect-for-story-planning reviewed the decomposition, sizing, and paralle
 - **Task 4** is **not** `[Small]`: two new executable shell scripts defining the environment-bootstrap convention (new infrastructure), verified by a run-based gate (`./setup.sh` from a clean state → `.venv` → editable install → pytest green). `setup.sh` and `.kilo/setup-script.sh` are one semantic unit (the wrapper reuses the same install steps), so splitting them would be artificial. Routes to `code-for-story-implementor`.
 - **Task 5** is a tech-writer task with **no size annotation** (the `[Small]` tag is a routing mechanism between code agents and would be a misnomer for a writing task). Routes to the `technical-writer-for-story-implementor` agent.
 
-### Task 1: Write `pyproject.toml` (PEP 621 project metadata) — Not Started [Small]
+### Task 1: Write `pyproject.toml` (PEP 621 project metadata) — Completed [Small]
 
 Architect note (decomposition/sizing): at its natural granularity — one new file, one concern (the packaging manifest), contents fully settled by the plan. Genuinely `[Small]` (≤ 2 files, additive, single domain, no new abstractions); cannot be smaller. Sequential-before Task 3 only (Task 3's `pip install -e .` and pytest `pythonpath` rely on this file). Its full functional verification (`pip install -e .` succeeding) happens in Tasks 3 and 4 because the `scaffold` package must exist first.
 
@@ -56,7 +56,7 @@ Architect note (decomposition/sizing): at its natural granularity — one new fi
       - `[tool.pytest.ini_options]` — `testpaths = ["tests"]` and `pythonpath = ["src"]` (pytest ≥ 7), so `python -m pytest` from the repo root discovers the tests and imports the `src/`-layout package without requiring a prior editable install. This is what lets Task 3 run the test-and-implement cycle against the raw tree.
    b. Verify the manifest parses and carries the required fields: run `python -c "import tomllib, pathlib; d = tomllib.loads(pathlib.Path('pyproject.toml').read_text()); assert d['project']['name'] == 'scaffold'; assert set(d['project']['dependencies']) == {'build123d', 'pytest'}; assert 'license' in d['project']"` (tomllib is stdlib on Python 3.11+; adjust the python used for the check as needed). Do **not** run `pip install -e .` here — it would fail because `src/scaffold/` does not exist yet; that gate belongs to Task 3. - Not Started
 
-### Task 2: Repo hygiene — `.gitignore`, `manufacture/.gitkeep`, delete `requirements.txt`, replace `LICENSE` with MIT — Not Started
+### Task 2: Repo hygiene — `.gitignore`, `manufacture/.gitkeep`, delete `requirements.txt`, replace `LICENSE` with MIT — Completed
 
 Architect note (decomposition): at its natural granularity — four distinct but trivially small repository-level file operations that form one "finish the repo-level config" pass over plan Step 4 letters d–f. Splitting them into four tasks would create four near-empty worktrees with zero isolation benefit. **Not** `[Small]` (4 files, multi-concern: ignore rules, output-directory tracking, deletion, license text) — route to `code-for-story-implementor`. File-disjoint from Task 1 (Group A).
 
@@ -67,7 +67,7 @@ Architect note (decomposition): at its natural granularity — four distinct but
    d. Replace the `LICENSE` GPL-3.0 text with the standard **MIT** license text (resolved decision 3; MIT is the default, Apache-2.0 the acceptable alternative — if the alternative is chosen, Task 1's `pyproject.toml` license field must be updated to match before Group A merges). Preserve the copyright attribution carried by the existing LICENSE (convert the notice to the MIT form) rather than inventing a holder; if no attributable holder can be determined, stop and request clarification per the Requesting Clarification section. - Not Started
    e. Verify the file state: `git ls-files` no longer lists `requirements.txt` (or it was not tracked and is simply absent from the working tree after deletion); `git status --porcelain`/`git ls-files` shows `manufacture/.gitkeep` present; a grep of `.gitignore` finds each required pattern; the first line of `LICENSE` reads `MIT License` and the permission/liability boilerplate is present. **Cross-file consistency**: the `license` field in Task 1's `pyproject.toml` must equal `MIT` — this is a post-merge check performed when Group A reintegrates (Task 1's manifest and this task's LICENSE are plan-settled to MIT, so no behavioral dependency exists between the two tasks). - Not Started
 
-### Task 3: Add `src/scaffold/` box example with passing test (test-first, TDD) — Not Started
+### Task 3: Add `src/scaffold/` box example with passing test (test-first, TDD) — Completed
 
 Covers plan Step 4 letters (a) and (b): write `tests/test_example.py` **before** `src/scaffold/` (Logical TDD Lifecycle), then implement, then run to green — all inside this one task.
 
@@ -86,7 +86,7 @@ Architect note (decomposition): at its natural granularity — the red test step
    d. Complete the environment and run to **green**: `.venv/bin/python -m pip install -e .` (the editable install — must succeed now that `pyproject.toml` (Task 1) and `src/scaffold/` both exist; this is the plan's `pip install -e .` completion criterion, and it installs `pytest` + `build123d` from the manifest), then run `.venv/bin/python -m pytest` — **all tests pass** (the TDD green step). - Not Started
    e. Run the example CLI end-to-end: `.venv/bin/python -m scaffold.example` (default outdir `manufacture/`) and confirm `manufacture/scaffold_box.step` is written. The file is gitignored (Task 2) so it appears in the working tree but is never committed — that is the intended state (`.step` files are generated artifacts). - Not Started
 
-### Task 4: Write `setup.sh` and `.kilo/setup-script.sh` — Not Started
+### Task 4: Write `setup.sh` and `.kilo/setup-script.sh` — Completed
 
 Covers plan Step 5 letters (a) and (b). Depends on Task 3 (the scripts' verification installs the `scaffold` package and runs its pytest suite, so `src/scaffold/` must already be merged).
 
@@ -97,7 +97,7 @@ Architect note (decomposition): at its natural granularity — two new scripts f
    b. Write `.kilo/setup-script.sh` (executable) as a **thin wrapper around the same install** (plan Step 5b): it must perform the same `.venv` + pip + `pip install -e .` bootstrap that `setup.sh` performs (either by invoking `setup.sh` from the repo root or by replicating its core lines), kept minimal and quiet, because the story-implementor PDD script expects this file to exist for worktree environment setup. - Not Started
    c. Make both files executable (`chmod +x setup.sh .kilo/setup-script.sh`) and run the verification gate: from a state with no `.venv` present (a worktree is clean of `.venv` because it is gitignored), run `./setup.sh` — it creates `.venv`, upgrades pip, editable-installs the package, then `.venv/bin/python -m pytest` passes (the plan's Step 5 completion criterion). Confirm `git status --porcelain` shows no `.venv/` or `.step` entries (both ignored). - Not Started
 
-### Task 5: Write `GETTINGSTARTED.md` and minimal `README.md` — Not Started
+### Task 5: Write `GETTINGSTARTED.md` and minimal `README.md` — Completed
 
 Covers plan Step 6 letters (a) and (b). Tech-writer task; routes to the `technical-writer-for-story-implementor` agent, not a code agent. Depends on Task 3 conceptually (documents the implemented feature) and is file-disjoint from Task 4 (Group B).
 
