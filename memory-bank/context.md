@@ -9,3 +9,4 @@ No tasks currently in progress.
 ## Recently Completed
 
 - Story008: Tooling generalization — generalized the PDD scripts and rule files to remove Chronocone/Go/Gradle references and set Python defaults.
+- Story009: Template verification — ./setup.sh, pytest, example .step, and clean status/sweeps all passed.
