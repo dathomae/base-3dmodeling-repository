@@ -16,7 +16,7 @@ This directory contains story files for the project. Each story represents a pla
 **[Story007_python-structure-and-setup.md](Story007_python-structure-and-setup.md)** — _Done_
 : Establish the Python src/-layout package (pyproject.toml + scaffold example + test), setup scripts, MIT LICENSE, and GETTINGSTARTED/README; delete requirements.txt.
 
-**[Story009_template-verification.md](Story009_template-verification.md)** — _Not Started_
+**[Story009_template-verification.md](Story009_template-verification.md)** — _Done_
 : Verify the template end-to-end from a clean state: ./setup.sh succeeds, python -m pytest passes, the example CLI emits a .step, and git status is clean.
 
 **[Story010_stories-reset.md](Story010_stories-reset.md)** — _Not Started_
