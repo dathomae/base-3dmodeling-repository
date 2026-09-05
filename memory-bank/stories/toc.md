@@ -13,7 +13,7 @@ This directory contains story files for the project. Each story represents a pla
 **[Story006_base-repo-cleanup.md](Story006_base-repo-cleanup.md)** — _Done_
 : Remove all menora-specific content (stories, plans, design docs, chanukah-halacha, alder-paradox gitlink) and replace memory-bank docs with project-agnostic skeletons.
 
-**[Story007_python-structure-and-setup.md](Story007_python-structure-and-setup.md)** — _Not Started_
+**[Story007_python-structure-and-setup.md](Story007_python-structure-and-setup.md)** — _Done_
 : Establish the Python src/-layout package (pyproject.toml + scaffold example + test), setup scripts, MIT LICENSE, and GETTINGSTARTED/README; delete requirements.txt.
 
 **[Story008_tooling-generalization.md](Story008_tooling-generalization.md)** — _Not Started_

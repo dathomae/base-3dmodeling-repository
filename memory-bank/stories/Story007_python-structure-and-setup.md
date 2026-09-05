@@ -86,7 +86,7 @@ Architect note (decomposition): at its natural granularity — the red test step
    d. Complete the environment and run to **green**: `.venv/bin/python -m pip install -e .` (the editable install — must succeed now that `pyproject.toml` (Task 1) and `src/scaffold/` both exist; this is the plan's `pip install -e .` completion criterion, and it installs `pytest` + `build123d` from the manifest), then run `.venv/bin/python -m pytest` — **all tests pass** (the TDD green step). - Not Started
    e. Run the example CLI end-to-end: `.venv/bin/python -m scaffold.example` (default outdir `manufacture/`) and confirm `manufacture/scaffold_box.step` is written. The file is gitignored (Task 2) so it appears in the working tree but is never committed — that is the intended state (`.step` files are generated artifacts). - Not Started
 
-### Task 4: Write `setup.sh` and `.kilo/setup-script.sh` — In Progress
+### Task 4: Write `setup.sh` and `.kilo/setup-script.sh` — Completed
 
 Covers plan Step 5 letters (a) and (b). Depends on Task 3 (the scripts' verification installs the `scaffold` package and runs its pytest suite, so `src/scaffold/` must already be merged).
 
@@ -97,7 +97,7 @@ Architect note (decomposition): at its natural granularity — two new scripts f
    b. Write `.kilo/setup-script.sh` (executable) as a **thin wrapper around the same install** (plan Step 5b): it must perform the same `.venv` + pip + `pip install -e .` bootstrap that `setup.sh` performs (either by invoking `setup.sh` from the repo root or by replicating its core lines), kept minimal and quiet, because the story-implementor PDD script expects this file to exist for worktree environment setup. - Not Started
    c. Make both files executable (`chmod +x setup.sh .kilo/setup-script.sh`) and run the verification gate: from a state with no `.venv` present (a worktree is clean of `.venv` because it is gitignored), run `./setup.sh` — it creates `.venv`, upgrades pip, editable-installs the package, then `.venv/bin/python -m pytest` passes (the plan's Step 5 completion criterion). Confirm `git status --porcelain` shows no `.venv/` or `.step` entries (both ignored). - Not Started
 
-### Task 5: Write `GETTINGSTARTED.md` and minimal `README.md` — In Progress
+### Task 5: Write `GETTINGSTARTED.md` and minimal `README.md` — Completed
 
 Covers plan Step 6 letters (a) and (b). Tech-writer task; routes to the `technical-writer-for-story-implementor` agent, not a code agent. Depends on Task 3 conceptually (documents the implemented feature) and is file-disjoint from Task 4 (Group B).
 
