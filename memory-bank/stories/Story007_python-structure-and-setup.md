@@ -42,7 +42,7 @@ The architect-for-story-planning reviewed the decomposition, sizing, and paralle
 - **Task 4** is **not** `[Small]`: two new executable shell scripts defining the environment-bootstrap convention (new infrastructure), verified by a run-based gate (`./setup.sh` from a clean state → `.venv` → editable install → pytest green). `setup.sh` and `.kilo/setup-script.sh` are one semantic unit (the wrapper reuses the same install steps), so splitting them would be artificial. Routes to `code-for-story-implementor`.
 - **Task 5** is a tech-writer task with **no size annotation** (the `[Small]` tag is a routing mechanism between code agents and would be a misnomer for a writing task). Routes to the `technical-writer-for-story-implementor` agent.
 
-### Task 1: Write `pyproject.toml` (PEP 621 project metadata) — Not Started [Small]
+### Task 1: Write `pyproject.toml` (PEP 621 project metadata) — In Progress [Small]
 
 Architect note (decomposition/sizing): at its natural granularity — one new file, one concern (the packaging manifest), contents fully settled by the plan. Genuinely `[Small]` (≤ 2 files, additive, single domain, no new abstractions); cannot be smaller. Sequential-before Task 3 only (Task 3's `pip install -e .` and pytest `pythonpath` rely on this file). Its full functional verification (`pip install -e .` succeeding) happens in Tasks 3 and 4 because the `scaffold` package must exist first.
 
@@ -56,7 +56,7 @@ Architect note (decomposition/sizing): at its natural granularity — one new fi
       - `[tool.pytest.ini_options]` — `testpaths = ["tests"]` and `pythonpath = ["src"]` (pytest ≥ 7), so `python -m pytest` from the repo root discovers the tests and imports the `src/`-layout package without requiring a prior editable install. This is what lets Task 3 run the test-and-implement cycle against the raw tree.
    b. Verify the manifest parses and carries the required fields: run `python -c "import tomllib, pathlib; d = tomllib.loads(pathlib.Path('pyproject.toml').read_text()); assert d['project']['name'] == 'scaffold'; assert set(d['project']['dependencies']) == {'build123d', 'pytest'}; assert 'license' in d['project']"` (tomllib is stdlib on Python 3.11+; adjust the python used for the check as needed). Do **not** run `pip install -e .` here — it would fail because `src/scaffold/` does not exist yet; that gate belongs to Task 3. - Not Started
 
-### Task 2: Repo hygiene — `.gitignore`, `manufacture/.gitkeep`, delete `requirements.txt`, replace `LICENSE` with MIT — Not Started
+### Task 2: Repo hygiene — `.gitignore`, `manufacture/.gitkeep`, delete `requirements.txt`, replace `LICENSE` with MIT — In Progress
 
 Architect note (decomposition): at its natural granularity — four distinct but trivially small repository-level file operations that form one "finish the repo-level config" pass over plan Step 4 letters d–f. Splitting them into four tasks would create four near-empty worktrees with zero isolation benefit. **Not** `[Small]` (4 files, multi-concern: ignore rules, output-directory tracking, deletion, license text) — route to `code-for-story-implementor`. File-disjoint from Task 1 (Group A).
 
