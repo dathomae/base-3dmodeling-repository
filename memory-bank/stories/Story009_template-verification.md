@@ -61,16 +61,16 @@ Architect note (decomposition): at its natural granularity — a single run-and-
    c. Interpret the result as a gate: exit code 0 and a passing summary — at least the tests Story007 wrote in `tests/test_example.py` (the `make_box()` bounding-box assertions) must be collected and pass, with zero failures, zero errors, and zero collection errors. Record the exact pass/fail counts from the summary line. - Completed
    d. STOP-on-failure per Task 1 subtask e: a red suite here is a defect in Story007's package, test, or `pyproject.toml` — record the failing test names and output, do not edit any file to make the suite green, and report. - Completed
 
-### Task 3: Run the example CLI and confirm a `.step` lands in `manufacture/` (plan 8c) — In Progress
+### Task 3: Run the example CLI and confirm a `.step` lands in `manufacture/` (plan 8c) — Completed
 
 Architect note (decomposition): at its natural granularity — a single run-and-verify gate sequentially dependent on Tasks 1–2 (the CLI requires the installed package and a passing baseline). It re-establishes the environment (clean-state reproducibility), runs the documented example CLI, and checks both the artifact and the `manufacture/*.step` gitignore rule. **Not `[Small]`**. Routes to `code-for-story-implementor`.
 
-1. Run the example CLI and confirm it emits a `.step` into `manufacture/` - Not Started
-   a. Re-establish the clean environment exactly as in Task 1 subtasks a–b: fresh worktree, no `.venv/` residue, `./setup.sh` exits 0. - Not Started
-   b. Identify the documented example CLI from Story007's deliverables: plan Step 4 pins the default form `python -m scaffold.example`; `GETTINGSTARTED.md` (created in Story007, plan Step 6) records the exact invocation. If GETTINGSTARTED documents a different command, use that documented form. Run it from the repo root with the venv python: `.venv/bin/python -m scaffold.example`. - Not Started
-   c. Confirm the CLI emitted a `.step`: exactly the expected new non-empty `.step` file exists under `manufacture/` (its name is whatever Story007's `src/scaffold/example.py` export logic defines — read the actual name from the CLI output/docs rather than assuming one), and the file begins with the STEP header `ISO-10303-21;`. - Not Started
-   d. Confirm the artifact is generated output, not tracked content: `git status --porcelain` shows no `manufacture/*.step` entry, and `git check-ignore -v manufacture/<name>.step` prints the `manufacture/*.step` rule — this exercises the plan decision that `.step` outputs are gitignored while `manufacture/.gitkeep` keeps the directory. - Not Started
-   e. STOP-on-failure per Task 1 subtask e: a missing/invalid `.step` is a defect in Story007's example — record and report, do not fix. - Not Started
+1. Run the example CLI and confirm it emits a `.step` into `manufacture/` - Completed
+   a. Re-establish the clean environment exactly as in Task 1 subtasks a–b: fresh worktree, no `.venv/` residue, `./setup.sh` exits 0. - Completed
+   b. Identify the documented example CLI from Story007's deliverables: plan Step 4 pins the default form `python -m scaffold.example`; `GETTINGSTARTED.md` (created in Story007, plan Step 6) records the exact invocation. If GETTINGSTARTED documents a different command, use that documented form. Run it from the repo root with the venv python: `.venv/bin/python -m scaffold.example`. - Completed
+   c. Confirm the CLI emitted a `.step`: exactly the expected new non-empty `.step` file exists under `manufacture/` (its name is whatever Story007's `src/scaffold/example.py` export logic defines — read the actual name from the CLI output/docs rather than assuming one), and the file begins with the STEP header `ISO-10303-21;`. - Completed
+   d. Confirm the artifact is generated output, not tracked content: `git status --porcelain` shows no `manufacture/*.step` entry, and `git check-ignore -v manufacture/<name>.step` prints the `manufacture/*.step` rule — this exercises the plan decision that `.step` outputs are gitignored while `manufacture/.gitkeep` keeps the directory. - Completed
+   e. STOP-on-failure per Task 1 subtask e: a missing/invalid `.step` is a defect in Story007's example — record and report, do not fix. - Completed
 
 ### Task 4: Review `git status`/`git ls-files` and the content sweeps; record the outcome (plan 8d) — Not Started
 
