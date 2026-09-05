@@ -10,7 +10,7 @@ This directory contains story files for the project. Each story represents a pla
 **[Story005_stock-generation-utility.md](Story005_stock-generation-utility.md)** — _Not Started_
 : Generate .step models of the milling stock (0.75in/1.5in/2in square bar and 12in half-square face plate) for 3D-print CAM testing, and extract INCH_MM into a shared common module.
 
-**[Story006_base-repo-cleanup.md](Story006_base-repo-cleanup.md)** — _Not Started_
+**[Story006_base-repo-cleanup.md](Story006_base-repo-cleanup.md)** — _Done_
 : Remove all menora-specific content (stories, plans, design docs, chanukah-halacha, alder-paradox gitlink) and replace memory-bank docs with project-agnostic skeletons.
 
 **[Story007_python-structure-and-setup.md](Story007_python-structure-and-setup.md)** — _Not Started_
