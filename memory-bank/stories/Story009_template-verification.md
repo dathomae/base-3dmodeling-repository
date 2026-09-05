@@ -72,7 +72,7 @@ Architect note (decomposition): at its natural granularity — a single run-and-
    d. Confirm the artifact is generated output, not tracked content: `git status --porcelain` shows no `manufacture/*.step` entry, and `git check-ignore -v manufacture/<name>.step` prints the `manufacture/*.step` rule — this exercises the plan decision that `.step` outputs are gitignored while `manufacture/.gitkeep` keeps the directory. - Completed
    e. STOP-on-failure per Task 1 subtask e: a missing/invalid `.step` is a defect in Story007's example — record and report, do not fix. - Completed
 
-### Task 4: Review `git status`/`git ls-files` and the content sweeps; record the outcome (plan 8d) — Not Started
+### Task 4: Review `git status`/`git ls-files` and the content sweeps; record the outcome (plan 8d) — In Progress
 
 Architect note (decomposition): at its natural granularity — the five subtasks form ONE semantic unit: a single final-state audit of the merged template (status review, file-set audit, menora-family sweep, Chronocone/Go-family sweep) that closes with the story's only tracked change (the `memory-bank/context.md` record). Splitting per-file would force each subtask to re-derive the exclusion scoping below with no isolation benefit. This is a writing/review task — it ends by authoring a memory-bank record — so it routes to `technical-writer-for-story-implementor`, **not** a code agent. **Not `[Small]`** (multi-part checklist, grep scoping reasoning, 5 subtasks). Sequentially last: it audits the tree that Tasks 1–3 exercised.
 
