@@ -66,10 +66,6 @@ All file paths that contain an `archive` directory in them are to be **ignored**
 - [`rules-orchestrator/orchestrator.md`](../rules-orchestrator/orchestrator.md) - Orchestrator mode rules for coordinating complex multi-step projects
 - [`rules-story-implementor/story-implementor.md`](../rules-story-implementor/story-implementor.md) - Story Implementor mode rules for executing story files
 
-## Design and Implementation Patterns
-
-The Chronocone system follows some specific patterns in documentation, design and implemenation. Whenever performing any coding, architecture, planning or documentation activity **Always read the patterns table[`toc.md`](../../../memory-bank/specifications/patterns/toc.md) file first**
-
 ## Mandatory Reads
 
 ALWAYS read the memory-bank/lessons-learned.md, memory-bank/concepts.md and memory-bank/terms.md before each task to make sure you understand the concepts and terms used in the system as well as what has been learned in the past so that you avoid repeating mistakes.

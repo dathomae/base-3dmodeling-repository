@@ -21,7 +21,7 @@ The following files are standard in memory banks:
 5) brief.md contains a high level overview of the project.
 6) context.md describes the task or task that is in progress, along with relevant details and pointers to other files (e.g., file that capture a plan or story) that are relevant to a task. Note that context.md is NOT a historical log of work. When a task or story is completed information for it should be removed from context.md, with the possible exception of a BRIEF statement that some task or story has already been completed. context.md should be updated at both the start and end of every task. (Note: context.md tracks active tasks and current context, while concepts.md captures broader, general concepts and should be updated as needed for conceptual changes, not necessarily tied to task start/end.)
 7) requirements.md defines the requirements for the project.
-8) The design directory memory-bank/design/ contains design.md (the overall design and list of parts) plus documents for the candle arrangements (candle-arrangement-circular.md and candle-arrangement-arc.md).
+8) The design directory memory-bank/design/ contains design.md (the overall design and list of parts) and may hold additional project-specific design documents beside it.
 9) Tasks will always be broken down into fine-grained segments that will come in one of two forms, either story directories or plan files. Both are defined  below.
 
 Plan files shorter or more targeted objectives will be captured in "plan" files.

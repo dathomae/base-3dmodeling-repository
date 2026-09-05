@@ -2,7 +2,7 @@
 
 This script automates the process of adding a new story to the project. It generates the next available story number by scanning existing stories in both the active and finished stories directories, creates a new story file from the template, and adds an entry to the Active Stories section in toc.md.
 
-This script is executed by the **technical-writer** agent, assisted by the **architect-for-story-planning** subagent. The technical-writer owns the story structure and prose; the architect-for-story-planning evaluates task decomposition (identifying tasks that are too large for a single sub-agent handoff), judges task sizing, and assesses parallelism opportunities based on knowledge of the codebase file structure and dependency graph. See the [stories template](chronocone/resources/templates/stories.md) for the full story format including Task Sizing, Parallel Execution, and Execution Order sections.
+This script is executed by the **technical-writer** agent, assisted by the **architect-for-story-planning** subagent. The technical-writer owns the story structure and prose; the architect-for-story-planning evaluates task decomposition (identifying tasks that are too large for a single sub-agent handoff), judges task sizing, and assesses parallelism opportunities based on knowledge of the codebase file structure and dependency graph. See the [stories template](../resources/templates/stories.md) for the full story format including Task Sizing, Parallel Execution, and Execution Order sections.
 
 ## Parameters
 
@@ -50,10 +50,10 @@ This script is executed by the **technical-writer** agent, assisted by the **arc
     - Include the description in the Goal section
     - When generating the Tasks section, you **MUST** read and strictly adhere to the rules defined in the "Test-First Development" section of the template (i.e. applying the Logical TDD Lifecycle where tests are integrated into each task, rather than broken out as separate tasks).
      - Preserve all other template sections (References, Dependencies, Dependent Stories, Constraints, Intent, etc.)
-     - **File path convention**: All file paths in task descriptions MUST be relative to the project's `source_root` (where build/test commands run from). For CPL stories, `source_root` is `src/chronocone_planning_language`, and Go packages live under `src/main/go/` within `source_root`. Therefore:
-       - Go source file paths MUST include the `src/main/go/` prefix: e.g., `src/main/go/analysis/foo.go`, NOT `analysis/foo.go`
-       - Go test commands MUST use fully-qualified package paths from `source_root`: e.g., `go test ./src/main/go/analysis/...`, NOT `go test ./analysis/...`
-       - `go build` commands must similarly use `./src/main/go/...` prefix
+     - **File path convention**: All file paths in task descriptions are relative to the project's `source_root` (where build/test commands run from).
+       - For Python projects, `source_root` is the repository root (`.`), so source files are referenced repo-root-relative (e.g., `src/scaffold/example.py`).
+       - Commands run from `source_root` in module form — e.g., `python -m pytest` (or `python -m unittest discover -s tests`) for tests and `python -m build` for packaging.
+       - Non-Python derived projects override `source_root` and the command defaults as documented in the story-implementor PDD script.
      - Set all task statuses to "Not Started"
     - **Task Design: Prefer Small Tasks.** When decomposing story requirements into tasks, prefer creating straightforward, narrow-scope tasks that qualify as `[Small]` (at most 2 files, additive change, one concern), PROVIDED that the decomposition is natural and does not introduce additional complexity. Specifically:
       - **Prefer small when**: A piece of work naturally fits in 1-2 files, addresses a single concern, and follows an existing pattern (e.g., adding a switch case, adding a test for an existing function, a single-file helper with its test).
@@ -66,7 +66,7 @@ This script is executed by the **technical-writer** agent, assisted by the **arc
       - The files each task is expected to touch (source + test)
       - Any intermediate verification steps within each task (compile checks or test passes that occur before the final acceptance criteria)
 
-      The architect evaluates each task against the decomposition rules defined in [architect-for-story-planning's Task Decomposition Review section](chronocone/.kilo/agent/architect-for-story-planning.md) and returns a structured analysis:
+      The architect evaluates each task against the decomposition rules defined in [architect-for-story-planning's Task Decomposition Review section](../.kilo/agent/architect-for-story-planning.md) and returns a structured analysis:
       - For each task flagged as `too_large` or `borderline`: the architect **MUST propose the best possible alternate task breakdown**. This is not optional — the architect always attempts to find a decomposition that creates smaller, more focused tasks. Only when every potential split would violate the "do NOT decompose when" rules (creating artificial complexity, intermediate artifacts, or merge conflicts with no isolation benefit) does the architect state that the task is at its natural granularity and cannot be further decomposed.
       - If all tasks are appropriately sized: a confirmation that no changes are needed
 
@@ -115,12 +115,12 @@ This script is executed by the **technical-writer** agent, assisted by the **arc
        
        **Group A (Tasks 3, 4):**
        - Merge order: Task 3 first (modifies Makefile — shared infrastructure), then Task 4
-       - Integration tests: `go test ./pkg/evaluator/... -count=1 -timeout 60s` — verify combined evaluator behavior
-       - Watch for conflicts in: `go.sum` (dependency resolution may differ per worktree)
+       - Integration tests: `python -m pytest tests/test_evaluator.py` — verify combined evaluator behavior
+       - Watch for conflicts in: `poetry.lock` / `uv.lock` / `Pipfile.lock` (dependency resolution may differ per worktree)
        
        **Group B (Tasks 7, 8):**
        - Merge order: any order (fully disjoint packages, no shared infrastructure)
-       - Integration tests: `go test ./pkg/parser/... ./pkg/formatter/... -count=1 -timeout 60s`
+       - Integration tests: `python -m pytest tests/test_parser.py tests/test_formatter.py`
        - Watch for conflicts in: none expected
        ```
      - If no parallel groups exist, omit this subsection or write "None — no parallel groups."
@@ -149,7 +149,7 @@ This script is executed by the **technical-writer** agent, assisted by the **arc
        - Confirm that the story references the "Test-First Development" or "Logical TDD Lifecycle" principles
        - Confirm that coding tasks include tests written before implementation
        - Confirm that the test-and-implement cycle is integrated within each task rather than broken out as separate tasks
-       - **Task decomposition quality**: Confirm that no task has intermediate compile/test verification steps that signal a self-contained preamble was not split (i.e., no task should say "run go test to verify the new types pass" followed by "now update the consumers"). If such a pattern exists, re-consult the architect-for-story-planning — a decomposition opportunity was likely missed in step 9a.
+       - **Task decomposition quality**: Confirm that no task has intermediate compile/test verification steps that signal a self-contained preamble was not split (i.e., no task should say "run `python -m pytest` to verify the new types pass" followed by "now update the consumers"). If such a pattern exists, re-consult the architect-for-story-planning — a decomposition opportunity was likely missed in step 9a.
        - **Task size signals**: Confirm that no task has 10+ lettered subtasks spanning multiple "modify → compile → test" cycles. If such a task exists and step 9a did not flag it, re-consult the architect-for-story-planning.
        - Confirm `[Small]` annotations are on tasks that meet the sizing rules of thumb (consult architect-for-story-planning if uncertain)
        - Confirm parallel groups list only tasks that are truly file-disjoint (consult architect-for-story-planning if uncertain)
