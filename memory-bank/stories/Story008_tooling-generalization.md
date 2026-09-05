@@ -51,11 +51,11 @@ The architect-for-story-planning reviewed the decomposition, sizing, and paralle
 - **Task 5** is annotated `[Small]`: one file (`.kilocode/rules/rules-mock/mock.md`), one concern (remove the `chronoconev0_frontend` references and generalize the wording). Routes to `technical-writer-for-story-implementor`.
 - **Task 6** is **not** `[Small]` and is run-only (no repository edits): the story-level verification task that executes the grep gate, checks the story-implementor defaults, and dry-runs story creation in a scratch location. Depends on Tasks 1-5 being merged. Routes to `technical-writer-for-story-implementor` for the dry run; the story-implementor runs the final gates on the merged story branch.
 
-### Task 1: Generalize the `design/` description in `.kilocode/rules/organization.md` — Not Started [Small]
+### Task 1: Generalize the `design/` description in `.kilocode/rules/organization.md` — In Progress [Small]
 
 Architect note (decomposition): at its natural granularity, one file and one concern, cannot be smaller. Single sentence rewrite with no cross-file coordination. Routes to `technical-writer-for-story-implementor`.
 
-1. Generalize the memory-bank design-directory description - Not Started
+1. Generalize the memory-bank design-directory description - In Progress
    a. In `.kilocode/rules/organization.md`, replace the memory-bank item 8 sentence (currently: "The design directory memory-bank/design/ contains design.md (the overall design and list of parts) plus documents for the candle arrangements (candle-arrangement-circular.md and candle-arrangement-arc.md).") with a project-agnostic description. The design directory holds `design.md` (the overall design and list of parts) and may hold additional project-specific design documents beside it. Do not reference `candle-arrangement-circular.md`, `candle-arrangement-arc.md`, or any menora-specific subsystem (those files are deleted by Story006). Keep the item's numbering and the surrounding style of the list. The wording must stay consistent with the generic `memory-bank/design/design.md` skeleton that Story006 established. - Not Started
    b. Grep `.kilocode/rules/organization.md` for `candle-arrangement`, `chanukah`, and `menora`; zero hits in this file. - Not Started
 
