@@ -1,6 +1,6 @@
 # story-implementor
 
-This script drives the "story-implementor" agent behavior for performing story tasks. The script processes a story file sequentially, executing each incomplete task by routing coding tasks to the code-for-story-implementor agent (medium/large tasks) or small-code-for-story-implementor agent (small tasks), and writing tasks to the technical-writer-for-story-implementor agent, with appropriate review cycles. It enforces the **Logical TDD Lifecycle** defined in `memory-bank/concepts.md` and uses terms defined in `memory-bank/terms.md`. Story files follow the format defined in [`resources/templates/stories.md`](chronocone/resources/templates/stories.md).
+This script drives the "story-implementor" agent behavior for performing story tasks. The script processes a story file sequentially, executing each incomplete task by routing coding tasks to the code-for-story-implementor agent (medium/large tasks) or small-code-for-story-implementor agent (small tasks), and writing tasks to the technical-writer-for-story-implementor agent, with appropriate review cycles. It enforces the **Logical TDD Lifecycle** defined in `memory-bank/concepts.md` and uses terms defined in `memory-bank/terms.md`. Story files follow the format defined in [`resources/templates/stories.md`](../resources/templates/stories.md).
 
 The procedure you're following for each task in a story follows this basic procedure outline:
 
@@ -66,7 +66,7 @@ You are violating the handoff protocol if you:
 
 - Consider using the Edit or Write tool for anything other than the story file or toc.md
 - Start thinking about "how I would implement this" rather than "what the sub-agent needs to know to implement this"
-- Consider running `go test`, `npm test`, or any test runner beyond pre-work baseline establishment (testing belongs to the sub-agent)
+- Consider running `python -m pytest`, `npm test`, or any test runner beyond pre-work baseline establishment (testing belongs to the sub-agent)
 - Read a source file and then immediately try to modify it (reading is for instruction construction only)
 - Apply review feedback directly instead of creating a NEW AGENT TASK for the implementor
 
@@ -135,9 +135,9 @@ For **pure refactoring tasks** (moving code between files, renaming, reorganizin
 
 | feature_branch_sanitized | string | Derived: `<feature_branch>` with all `/` characters replaced by `-`, for use in git branch and worktree names (Git can become confused by `/` in branch names). | N/A | Derived automatically |
 | checkpoint_mode | string | When to pause for user approval: `"every"` (after each task), `"none"` (run to completion), or a task number (e.g., `"5"` to stop after Task 5) | No | `"every"` |
-| source_root | string | Root source directory for build/test commands (e.g., `src/chronocone_planning_language`) | No | Auto-detected for CPL stories; prompted if missing for other stories |
-| build_command | string | Command to build the project (e.g., `./gradlew build`) | No | Auto-detected for CPL stories; prompted if missing for other stories |
-| test_command | string | Command to run the full test suite (e.g., `./gradlew test`) | No | Auto-detected for CPL stories; prompted if missing for other stories |
+| source_root | string | Root directory for build/test commands, defaulting to the repository root (.) | No | Repository root (.) — Python default; overridden by user at the Operation 4b confirmation prompt for non-Python repositories |
+| build_command | string | Command to build the project (e.g., `python -m build`) | No | `python -m build` — Python default; overridden at the Operation 4b confirmation prompt for non-Python repositories |
+| test_command | string | Command to run the full test suite (e.g., `python -m pytest`) | No | `python -m pytest` — Python default; overridden at the Operation 4b confirmation prompt for non-Python repositories |
 | review_iteration_limit | number | Maximum review-fix iterations per task before stopping and asking the user for guidance | No | 3 |
 
 ## Operations
@@ -186,12 +186,7 @@ If the "Parallel Execution" or "Execution Order" subsections are absent, all tas
      **Resolve defaults**:
      - `checkpoint_mode`: Use the provided value or default `"every"`.
      - `review_iteration_limit`: Use the provided value or default `3`.
-     - Determine whether this is a CPL story. If the story file or any of its references mention `chronocone_planning_language`, `CPL`, `CIL`, or `src/chronocone_planning_language`, it is a CPL story.
-     - **For CPL stories**:
-       - `source_root` defaults to `src/chronocone_planning_language`
-       - `build_command` defaults to `./gradlew build`
-       - `test_command` defaults to `./gradlew test`
-     - **For non-CPL stories**: If `source_root`, `build_command`, or `test_command` are not provided, prompt the user for each missing value.
+     - All stories default `source_root` to the repository root (`.`), `build_command` to `python -m build`, and `test_command` to `python -m pytest`. If the repository is not a Python project, the user supplies the correct values at the confirmation prompt below.
 
      **Confirmation**:
      - Present the resolved values for ALL parameters to the user:
@@ -245,7 +240,7 @@ If the "Parallel Execution" or "Execution Order" subsections are absent, all tas
      - Build: `cd $source_root && $build_command`
      - Test: `cd $source_root && $test_command`
 
-     **Setup script check**: Verify that `.kilo/setup-script.sh` exists in the repository root. If absent, warn the user: "No `.kilo/setup-script.sh` found. Worktree sessions may fail to build or test without environment setup. Create one at `.kilo/setup-script.sh` that installs required dependencies (e.g., Gradle wrapper, Go modules, npm packages)." Continue without blocking — the user may have already prepared their environment manually. If the script exists, record its path for use during worktree creation (Operation 8).
+     **Setup script check**: Verify that `.kilo/setup-script.sh` exists in the repository root. If absent, warn the user: "No `.kilo/setup-script.sh` found. Worktree sessions may fail to build or test without environment setup. Create one at `.kilo/setup-script.sh` that installs required dependencies (e.g., creating the virtual environment and running `pip install -e .` from the repository root)." Continue without blocking — the user may have already prepared their environment manually. If the script exists, record its path for use during worktree creation (Operation 8).
 
 8. **DELEGATION** — story-implementor: For the current work unit (single task or parallel group), create an isolated git worktree for each task and delegate the sub-agent to work within it. You MUST NOT implement these tasks yourself:
 
@@ -266,7 +261,7 @@ If the "Parallel Execution" or "Execution Order" subsections are absent, all tas
      git worktree add worktrees/<sanitized_feature_branch>-task-N -b <sanitized_feature_branch>-task-N
      ```
    - The worktree branch is derived from the sanitized feature branch (e.g., if `<feature_branch>` is `story/005`, the sanitized form is `story-005`, and the worktree branch for Task 3 is `story-005-task-3`).
-   - **Environment setup in worktree**: If `.kilo/setup-script.sh` was detected in Operation 7a, run it inside each newly-created worktree to install build dependencies (Gradle wrapper, Go modules, etc.):
+   - **Environment setup in worktree**: If `.kilo/setup-script.sh` was detected in Operation 7a, run it inside each newly-created worktree to install build dependencies (e.g., creating the virtual environment and running `pip install -e .` from the repository root):
      ```bash
      bash ../../../.kilo/setup-script.sh
      ```
@@ -321,7 +316,7 @@ If the "Parallel Execution" or "Execution Order" subsections are absent, all tas
     - The full task details from the story file (all phases and subtasks within the task)
     - Any relevant file paths or references mentioned in the task
     - **Worktree instruction**: The sub-agent MUST use `workdir` parameter set to `worktree_path` (from story_context) for ALL bash commands. The sub-agent is working in an isolated git worktree. Files inside the worktree directory ARE part of the project's directory tree — do NOT ask for permission to read, write, edit, list, or search files within the worktree.
-    - **Source path resolution**: All file paths in story tasks are relative to `source_root` (from story_context). Resolve file paths within the worktree as `<source_root>/<story_path>`. For the CPL project specifically, `source_root` is `src/chronocone_planning_language`; Go packages live under `src/main/go/` within `source_root`. When a story path omits the `src/main/go/` prefix (bare paths like `analysis/foo.go` or `go test ./parsing/...`), prepend `src/main/go/`. Go commands must run from `source_root`: `cd <source_root> && go test ./src/main/go/<pkg>/...`.
+    - **Source path resolution**: All file paths in story tasks are relative to `source_root` (from story_context). Resolve file paths within the worktree as `<source_root>/<story_path>`. For Python projects, `source_root` is the repository root (`.`), so story paths are repo-root-relative (for example `src/scaffold/example.py`), and Python commands run from `source_root`, for example `cd <source_root> && python -m pytest`.
     - **Commit requirement**: The sub-agent MUST commit all changes within the worktree before returning results. The merge step (Operation 27) only picks up committed changes; uncommitted changes will cause `git worktree remove` to fail. Use a descriptive commit message referencing the task and story.
     - **Routing logic**:
     - For **small tasks**: Use the small-code-for-story-implementor agent. Instruct it to make the change directly, keeping modifications minimal and focused. Verify existing tests still pass. The full Logical TDD Lifecycle is not required for small tasks.
@@ -406,7 +401,7 @@ If the "Parallel Execution" or "Execution Order" subsections are absent, all tas
     - Any relevant file paths or references mentioned in the task
     - The story file name for reference
     - **Worktree instruction**: The sub-agent MUST use `workdir` parameter set to `worktree_path` (from story_context) for ALL bash commands and file operations. Files inside the worktree directory ARE part of the project's directory tree — do NOT ask for permission to read, write, edit, list, or search files within the worktree.
-    - **Source path resolution**: All file paths in story tasks are relative to `source_root` (from story_context). Resolve file paths within the worktree as `<source_root>/<story_path>`. For the CPL project specifically, `source_root` is `src/chronocone_planning_language`; Go packages live under `src/main/go/` within `source_root`. When a story path omits the `src/main/go/` prefix (bare paths like `analysis/foo.go`), prepend `src/main/go/`.
+    - **Source path resolution**: All file paths in story tasks are relative to `source_root` (from story_context). Resolve file paths within the worktree as `<source_root>/<story_path>`. For Python projects, `source_root` is the repository root (`.`), so story paths are repo-root-relative (for example `src/scaffold/example.py`), and Python commands run from `source_root`, for example `cd <source_root> && python -m pytest`.
     - **Commit requirement**: The sub-agent MUST commit all changes within the worktree before returning results. Use a descriptive commit message referencing the task and story.
     - **CRITICAL**: Instruct the technical-writer-for-story-implementor to include the story_context section in their results exactly as provided, without modification
 
@@ -682,7 +677,7 @@ Specific error conditions handled:
 - **One Task Per Handoff Rule**: The story-implementor MUST NOT further decompose tasks into sub-elements (phases, subtasks, steps) for separate handoffs. Doing so would multiply round-trips without reducing context load, since the same files would be re-read in each sub-handoff. Each task is handed off as a single unit. The EXCEPTION is parallel groups: multiple complete tasks can be launched simultaneously as separate handoffs.
 - **Parallel Execution**: When a story declares parallel groups in its "Parallel Execution" section, the story-implementor creates one git worktree per incomplete task in the group (under `worktrees/<sanitized_feature_branch>-task-N/`) and launches all sub-agents concurrently. Each task is still a single-unit handoff. After individual tasks are reviewed and their worktrees are merged (one at a time), the story-implementor runs integration tests before proceeding.
 - **Mandatory Worktree Isolation**: EVERY task — sequential or parallel — is executed in an isolated git worktree under `worktrees/<sanitized_feature_branch>-task-N/`. Worktrees are created from `<feature_branch>` using `git worktree add`, sub-agents work in the worktree via the `workdir` parameter, and only successful, reviewed work is merged back into `<feature_branch>`. Failed work is deleted with the worktree and never contaminates `<feature_branch>`. This eliminates the need for stash, reset, or revert operations entirely.
-- **Worktree Environment Setup**: If `.kilo/setup-script.sh` exists in the repository root, the story-implementor runs it inside each newly-created worktree to install build dependencies (Gradle wrapper, Go modules, etc.). If absent, the story-implementor warns the user once at the start of the story and proceeds — the user may have already prepared their environment manually or the worktree may not need additional setup.
+- **Worktree Environment Setup**: If `.kilo/setup-script.sh` exists in the repository root, the story-implementor runs it inside each newly-created worktree to install build dependencies (e.g., creating the virtual environment and running `pip install -e .` from the repository root). If absent, the story-implementor warns the user once at the start of the story and proceeds — the user may have already prepared their environment manually or the worktree may not need additional setup.
 - **Worktree Merge Serialization**: Merges happen one at a time. For parallel groups, a task is eligible for merge as soon as it completes + passes review — it is NOT necessary to wait for all parallel tasks to complete. Merge order follows the reintegration instructions from the story's "Reintegration" subsection when specified; when reintegration says "any order" or "None", or is absent, use finish-order (first task reviewed-ok first, task-number tiebreaker). Sequential tasks merge trivially (fast-forward) since no other worktree is active concurrently.
 - **Task Size Determination**: Tasks annotated with `[Small]` on their status line are routed to small-code-for-story-implementor. Unannotated tasks fall back to heuristic analysis. When in doubt, default to medium (code-for-story-implementor).
 - **Checkpoint Mode**: The story-implementor confirms all parameters with the user at the start of the story session in Operation 4b, before any task analysis or execution begins. No further user queries for parameters occur during the session.
