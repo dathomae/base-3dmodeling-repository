@@ -46,7 +46,7 @@ The architect-for-story-planning reviewed the decomposition, sizing, and paralle
 - **Task 4** is **not** `[Small]`: six skeleton files forming one semantic unit — every skeleton must match the structure documented in `.kilocode/rules/organization.md` and use consistent header + placeholder conventions. A coordinated multi-file rewrite kept as one task per the architect rules. Routes to `technical-writer-for-story-implementor`.
 - **Task 5** is annotated `[Small]`: one file (`memory-bank/lessons-learned.md`), one concern (make it project-agnostic: keep generic rows, generalize the one menora row). Routes to `small-code-for-story-implementor`.
 
-### Task 1: Delete the menora memory-bank and resources content (plan Step 1a + 1b) — Not Started
+### Task 1: Delete the menora memory-bank and resources content (plan Step 1a + 1b) — In Progress
 
 Architect note (decomposition): a single coordinated mechanical deletion across ~17 tracked files and 2 directories, with the plan's lettered sub-steps 1(a) and 1(b) preserved as subtasks. The 7 plan files and `resources/chanukah-halacha/` are already deleted in the working tree (uncommitted) — this task captures those deletions, it does **not** re-create content. Splitting per-file would create merge conflicts with no isolation benefit; keep as one task. Not `[Small]`.
 
@@ -64,7 +64,7 @@ Architect note (decomposition): a single coordinated mechanical deletion across 
    b. Confirm **both** uncommitted deletion sets are captured: `git status --short` shows the 7 plan files and the 2 chanukah-halacha files as staged deletions (not as untracked new files). This is the plan's "confirm the uncommitted working-tree deletions for plans and chanukah-halacha are captured" check.
    c. Do **not** delete or modify anything else under `resources/` — the reusable trees (`apis/build123d/`, `modeling/`, `code_review/`, `writing_resources/`, `templates/`) are preserved per the plan constraints.
 
-### Task 2: Remove the `alder-paradox` gitlink and the `worktrees` symlink (plan Step 1c) — Not Started
+### Task 2: Remove the `alder-paradox` gitlink and the `worktrees` symlink (plan Step 1c) — In Progress
 
 Architect note (decomposition): a git-index operation, not a file edit. `.kilo/worktrees/alder-paradox` is tracked as a bare gitlink (index mode `160000`, no `.gitmodules` entry exists, so there is no submodule configuration to clean up) and the top-level `worktrees` is a tracked symlink (index mode `120000`, pointing to `.kilo/worktrees`). The task requires git index/symlink reasoning plus an operational caveat (later story tasks run in worktrees under `.kilo/worktrees/`), so it is not `[Small]`.
 
@@ -76,7 +76,7 @@ Architect note (decomposition): a git-index operation, not a file edit. `.kilo/w
    e. **Deferred by design**: the plan's Step 1(c) also says "record `.kilo/worktrees/` in `.gitignore`", but no `.gitignore` exists at this point — it is created in plan Step 4(d) (Story007), which already includes `.kilo/worktrees/` in its ignore list. Do **not** create `.gitignore` in this story.
    f. Note for the remainder of the arc: after the tracked `worktrees` symlink is gone, later task handoffs should use the real `.kilo/worktrees/...` paths (or a locally re-created untracked symlink) — see the Notes section.
 
-### Task 3: Remove the `chanukah-halacha/` row from `resources/toc.md` (plan Step 1d) — Not Started [Small]
+### Task 3: Remove the `chanukah-halacha/` row from `resources/toc.md` (plan Step 1d) — In Progress [Small]
 
 Architect note (decomposition): one file, one mechanical row removal, single concern — `[Small]`. File-disjoint from Tasks 1 and 2, so it joins Group A.
 
