@@ -25,7 +25,7 @@ def test_sheet_dimensions():
 
 
 def test_sheet_has_one_hole_per_mounting_location():
-    """Each mounting location gets one through-hole: 35 cylindrical faces."""
+    """Each mounting location gets one through-hole: 34 cylindrical faces."""
     sheet = make_mounting_sheet()
     holes = sheet.faces().filter_by(GeomType.CYLINDER)
-    assert len(holes) == COLUMNS * ROWS
+    assert len(holes) == COLUMNS * ROWS - 1

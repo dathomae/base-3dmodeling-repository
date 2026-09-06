@@ -54,33 +54,33 @@ The bed's M5 mounting holes form a grid measured from the bed origin at the **lo
 | Rows (y direction) | 5 |
 | Left column offset from left edge | 26 mm |
 | Bottom row offset from bottom edge | 16 mm |
-| Horizontal spacing between column centers | 41 mm |
-| Vertical spacing between row centers | 46 mm |
+| Horizontal spacing between column centers | 40 mm |
+| Vertical spacing between row centers | 45 mm |
 
-**Exception:** the lower-left hole sits at **38 mm** from the bottom edge (instead of 16 mm); it is 24 mm below the first hole of the second row (y = 62 mm).
+**Exception:** the lower-left hole is missing — the bed carries no hole at (26, 16).
 
 The hole centers are:
 
-| y \ x | 26 | 67 | 108 | 149 | 190 | 231 | 272 |
+| y \ x | 26 | 66 | 106 | 146 | 186 | 226 | 266 |
 |-------|----|----|-----|-----|-----|-----|-----|
-| **200** | (26, 200) | (67, 200) | (108, 200) | (149, 200) | (190, 200) | (231, 200) | (272, 200) |
-| **154** | (26, 154) | (67, 154) | (108, 154) | (149, 154) | (190, 154) | (231, 154) | (272, 154) |
-| **108** | (26, 108) | (67, 108) | (108, 108) | (149, 108) | (190, 108) | (231, 108) | (272, 108) |
-| **62** | (26, 62) | (67, 62) | (108, 62) | (149, 62) | (190, 62) | (231, 62) | (272, 62) |
-| **16** | (26, 38) *exception* | (67, 16) | (108, 16) | (149, 16) | (190, 16) | (231, 16) | (272, 16) |
+| **196** | (26, 196) | (66, 196) | (106, 196) | (146, 196) | (186, 196) | (226, 196) | (266, 196) |
+| **151** | (26, 151) | (66, 151) | (106, 151) | (146, 151) | (186, 151) | (226, 151) | (266, 151) |
+| **106** | (26, 106) | (66, 106) | (106, 106) | (146, 106) | (186, 106) | (226, 106) | (266, 106) |
+| **61** | (26, 61) | (66, 61) | (106, 61) | (146, 61) | (186, 61) | (226, 61) | (266, 61) |
+| **16** | — (missing) | (66, 16) | (106, 16) | (146, 16) | (186, 16) | (226, 16) | (266, 16) |
 
-That is 35 holes total: the regular 7 × 5 grid with the lower-left hole relocated from (26, 16) to (26, 38).
+That is 34 holes total: the regular 7 × 5 grid minus the missing lower-left hole at (26, 16).
 
 ## Using the pattern in a jig
 
-To mount a jig, cut a countersunk M5 hole at each bed location the jig covers. The pattern is regular with a single exception, so generate the locations from the parameters above rather than hard-coding 35 coordinates:
+To mount a jig, cut a countersunk M5 hole at each bed location the jig covers. The pattern is regular with a single missing hole, so generate the locations from the parameters above rather than hard-coding 34 coordinates:
 
 ```python
 def mounting_hole_locations():
-    columns = [26 + 41 * i for i in range(7)]
-    rows = [16 + 46 * j for j in range(5)]
+    columns = [26 + 40 * i for i in range(7)]
+    rows = [16 + 45 * j for j in range(5)]
     locations = [(x, y) for y in rows for x in columns]
-    locations[locations.index((26, 16))] = (26, 38)  # lower-left exception
+    locations.remove((26, 16))  # the lower-left hole is missing
     return locations
 ```
 

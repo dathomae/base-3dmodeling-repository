@@ -17,23 +17,19 @@ LEFT_OFFSET = 26.0
 BOTTOM_OFFSET = 16.0
 
 #: Center-to-center spacing between columns and rows (mm).
-X_SPACING = 41.0
-Y_SPACING = 46.0
-
-#: Lower-left hole y position (mm). It sits 38 mm from the bottom edge instead
-#: of the regular 16 mm, leaving 24 mm to the first hole of the second row.
-LOWER_LEFT_Y = 38.0
+X_SPACING = 40.0
+Y_SPACING = 45.0
 
 
 def mounting_hole_locations() -> list[tuple[float, float]]:
     """Return the bed's M5 mounting-hole centers as ``(x, y)`` tuples.
 
     Positions are measured from the bed origin at the lower-left corner. The
-    result is a 7 × 5 grid ordered bottom-to-top, left-to-right, with one
-    exception: the lower-left hole is at ``(26, 38)`` rather than ``(26, 16)``.
+    result is a 7 × 5 grid ordered bottom-to-top, left-to-right, minus the
+    lower-left hole, which the bed does not carry.
     """
     columns = [LEFT_OFFSET + X_SPACING * i for i in range(COLUMNS)]
     rows = [BOTTOM_OFFSET + Y_SPACING * j for j in range(ROWS)]
     locations = [(x, y) for y in rows for x in columns]
-    locations[0] = (LEFT_OFFSET, LOWER_LEFT_Y)  # relocate the lower-left hole
+    locations.remove((LEFT_OFFSET, BOTTOM_OFFSET))  # the lower-left hole is absent
     return locations
