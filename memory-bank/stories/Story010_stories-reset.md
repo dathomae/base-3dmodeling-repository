@@ -44,13 +44,13 @@ The architect-for-story-planning reviewed the decomposition, sizing, and paralle
 - **Task 3** is **not** `[Small]`: touches 5+ files across two directories, coordinates a destructive sweep with a strict internal ordering rule (self-deletion last), and requires state confirmation before every removal. Routes to `technical-writer-for-story-implementor`.
 - **Task 4** is annotated `[Small]`: read-only verification of a single directory (`memory-bank/plans/`), one concern. Routes to `technical-writer-for-story-implementor`.
 
-### Task 1: Rewrite `memory-bank/stories/toc.md` as an empty skeleton — In Progress [Small]
+### Task 1: Rewrite `memory-bank/stories/toc.md` as an empty skeleton — Completed [Small]
 
 Architect note (decomposition): at its natural granularity — one file, a mechanical rewrite to the file's existing structural headers with every entry/row removed; cannot be smaller. `[Small]` by all four sizing rules (1 file; additive/mechanical, no new abstractions; narrow scope; single concern). Routes to `technical-writer-for-story-implementor`.
 
-1. Rewrite `memory-bank/stories/toc.md` to the empty skeleton (plan Step 3 (a)) - Not Started
-   a. Replace the current contents (header `# Stories - Table of Contents`, intro line, whatever `## Active Stories` entries are present at execution time — the menora Story004/Story005 entries plus this arc's own Story006–Story010 entries — and whatever `## Finished Stories` rows are present) with the empty skeleton: keep the header and the intro line, add an `## Active Stories` heading with **zero entries** beneath it, and an `## Finished Stories` heading whose table keeps only the header row (`| Story File | Description | State |` and the `|------------|-------------|-------|` separator) with **zero data rows**. The result contains no story links and no dangling references. - Not Started
-   b. Verify: read the rewritten file back; confirm exactly two section headings (`## Active Stories`, `## Finished Stories`) with no entries between them and the table header, and zero `[Story...](...)` links. - Not Started
+1. Rewrite `memory-bank/stories/toc.md` to the empty skeleton (plan Step 3 (a)) - Completed
+   a. Replace the current contents (header `# Stories - Table of Contents`, intro line, whatever `## Active Stories` entries are present at execution time — the menora Story004/Story005 entries plus this arc's own Story006–Story010 entries — and whatever `## Finished Stories` rows are present) with the empty skeleton: keep the header and the intro line, add an `## Active Stories` heading with **zero entries** beneath it, and an `## Finished Stories` heading whose table keeps only the header row (`| Story File | Description | State |` and the `|------------|-------------|-------|` separator) with **zero data rows**. The result contains no story links and no dangling references. - Completed
+   b. Verify: read the rewritten file back; confirm exactly two section headings (`## Active Stories`, `## Finished Stories`) with no entries between them and the table header, and zero `[Story...](...)` links. - Completed
 
 ### Task 2: Rewrite `memory-bank/finished-stories/toc.md` as an empty skeleton — Not Started [Small]
 
