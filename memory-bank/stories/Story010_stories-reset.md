@@ -44,7 +44,7 @@ The architect-for-story-planning reviewed the decomposition, sizing, and paralle
 - **Task 3** is **not** `[Small]`: touches 5+ files across two directories, coordinates a destructive sweep with a strict internal ordering rule (self-deletion last), and requires state confirmation before every removal. Routes to `technical-writer-for-story-implementor`.
 - **Task 4** is annotated `[Small]`: read-only verification of a single directory (`memory-bank/plans/`), one concern. Routes to `technical-writer-for-story-implementor`.
 
-### Task 1: Rewrite `memory-bank/stories/toc.md` as an empty skeleton — Not Started [Small]
+### Task 1: Rewrite `memory-bank/stories/toc.md` as an empty skeleton — In Progress [Small]
 
 Architect note (decomposition): at its natural granularity — one file, a mechanical rewrite to the file's existing structural headers with every entry/row removed; cannot be smaller. `[Small]` by all four sizing rules (1 file; additive/mechanical, no new abstractions; narrow scope; single concern). Routes to `technical-writer-for-story-implementor`.
 
