@@ -10,15 +10,6 @@ This directory contains story files for the project. Each story represents a pla
 **[Story005_stock-generation-utility.md](Story005_stock-generation-utility.md)** — _Not Started_
 : Generate .step models of the milling stock (0.75in/1.5in/2in square bar and 12in half-square face plate) for 3D-print CAM testing, and extract INCH_MM into a shared common module.
 
-**[Story006_base-repo-cleanup.md](Story006_base-repo-cleanup.md)** — _Done_
-: Remove all menora-specific content (stories, plans, design docs, chanukah-halacha, alder-paradox gitlink) and replace memory-bank docs with project-agnostic skeletons.
-
-**[Story007_python-structure-and-setup.md](Story007_python-structure-and-setup.md)** — _Done_
-: Establish the Python src/-layout package (pyproject.toml + scaffold example + test), setup scripts, MIT LICENSE, and GETTINGSTARTED/README; delete requirements.txt.
-
-**[Story009_template-verification.md](Story009_template-verification.md)** — _Done_
-: Verify the template end-to-end from a clean state: ./setup.sh succeeds, python -m pytest passes, the example CLI emits a .step, and git status is clean.
-
 **[Story010_stories-reset.md](Story010_stories-reset.md)** — _Not Started_
 : Reset memory-bank/stories/ and finished-stories/ to empty skeletons, removing the menora stories and this arc's own completed meta-stories (TERMINAL story).
 
