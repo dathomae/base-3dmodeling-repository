@@ -72,13 +72,13 @@ Architect note (decomposition): **not** `[Small]`. This is a coordinated destruc
    c. Remove `memory-bank/stories/walkthrough/` if it is still present (menora-specific walkthrough; plan Step 1 (a) may already have removed it). - Completed
    d. Record this story's completion — add a brief "Recently Completed" entry in `memory-bank/context.md` per the standard task discipline — and then clear that entry so `context.md` returns to the empty-skeleton state that plan Step 2 established (the template-ready end state leaves `context.md` with empty Active Tasks / Recently Completed sections). **Do not delete `Story010_stories-reset.md` in this task.** The physical self-deletion is the **last act of the whole story**, executed by the story-implementor in the main tree only after Task 4 confirms `plans/` — the story file must remain readable through every task (including Task 4). See Constraints ("Self-deletion ordering") and Execution Order. - Completed
 
-### Task 4: Confirm `memory-bank/plans/` contains only `base-repository-setup_plan.md` — In Progress [Small]
+### Task 4: Confirm `memory-bank/plans/` contains only `base-repository-setup_plan.md` — Completed [Small]
 
 Architect note (decomposition): at its natural granularity — read-only verification of one directory, one concern, no file modifications. `[Small]`. Routes to `technical-writer-for-story-implementor`.
 
-1. Confirm `memory-bank/plans/` contains only this plan (plan Step 3 (d)) - Not Started
-   a. List `memory-bank/plans/`; expect exactly one entry: `base-repository-setup_plan.md` (the 7 menora plan files were already deleted from the working tree; verify nothing else was reintroduced during the arc). - Not Started
-   b. If any other file is present, STOP and report — do not delete anything outside `memory-bank/stories/` and `memory-bank/finished-stories/` without direction; the reset scope is the stories directories, and the `plans/` check is a verification gate, not a deletion license. - Not Started
+1. Confirm `memory-bank/plans/` contains only this plan (plan Step 3 (d)) - Completed
+   a. List `memory-bank/plans/`; expect exactly one entry: `base-repository-setup_plan.md` (the 7 menora plan files were already deleted from the working tree; verify nothing else was reintroduced during the arc). - Completed
+   b. If any other file is present, STOP and report — do not delete anything outside `memory-bank/stories/` and `memory-bank/finished-stories/` without direction; the reset scope is the stories directories, and the `plans/` check is a verification gate, not a deletion license. - Completed
 
 ### Parallel Execution
 
