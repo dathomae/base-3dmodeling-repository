@@ -7,7 +7,7 @@ name = "scaffold"
 description = "A placeholder build123d-based parametric modeling package (rename me for your project)"
 requires-python = ">=3.10"
 version = "0.1.0"
-dependencies = ["build123d", "pytest"]
+dependencies = ["build123d", "pytest", "ocp_vscode"]
 license = {text = "MIT"}
 
 [tool.setuptools.packages.find]

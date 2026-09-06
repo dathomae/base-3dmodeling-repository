@@ -8,7 +8,7 @@ The template is self-verifying. It ships a `src/scaffold/` package that builds a
 
 | Path | Purpose |
 |------|---------|
-| `pyproject.toml` | PEP 621 packaging manifest. Declares the `scaffold` package (installed from `src/`) and the two dependencies, build123d and pytest. |
+| `pyproject.toml` | PEP 621 packaging manifest. Declares the `scaffold` package (installed from `src/`) and its three dependencies: build123d, pytest, and ocp_vscode. |
 | `src/scaffold/` | The placeholder package. `example.py` builds a 10 mm box and exports it as a STEP file through a small command-line interface. |
 | `tests/test_example.py` | pytest tests for the example, written first and used to prove the install works. |
 | `setup.sh` | Creates the Python environment and installs the package. |
@@ -37,13 +37,13 @@ Once you have a derived repository, update the copyright line in `LICENSE` if th
 
 ## 2. Set up the environment and run the example
 
-All Python dependencies live in `pyproject.toml`, and the list is deliberately short: build123d and pytest. `setup.sh` does the environment bootstrap in one step. From the repository root, run:
+All Python dependencies live in `pyproject.toml`, and the list is deliberately short: build123d, pytest, and ocp_vscode. `setup.sh` does the environment bootstrap in one step. From the repository root, run:
 
 ```bash
 ./setup.sh
 ```
 
-The script creates a virtual environment at `.venv`, upgrades pip inside it, and runs `pip install -e .`, which installs the `scaffold` package and resolves both declared dependencies from the manifest. pytest is a regular dependency rather than an optional extra, so this single editable install also provides the test runner. The script prints the next steps when it finishes.
+The script creates a virtual environment at `.venv`, upgrades pip inside it, and runs `pip install -e .`, which installs the `scaffold` package and resolves all declared dependencies from the manifest. pytest is a regular dependency rather than an optional extra, so this single editable install also provides the test runner; ocp_vscode is a regular dependency too, so the viewer (section 6) is ready to use as soon as setup finishes. The script prints the next steps when it finishes.
 
 These instructions assume a Unix shell (the scripts are bash). On Windows, run the commands from Git Bash or WSL.
 
@@ -69,7 +69,7 @@ pytest reads `[tool.pytest.ini_options]` from `pyproject.toml`, which points `te
 python -m scaffold.example
 ```
 
-The example calls `make_box()` and exports the result to `manufacture/scaffold_box.step`, the module's default output directory and filename. An `-o/--outdir` option redirects the output elsewhere. Run the command from the repository root so the default relative path resolves to the tracked `manufacture/` directory. STEP files are generated artifacts and are gitignored (`manufacture/*.step` in `.gitignore`), so `scaffold_box.step` appears on disk but never in git; `manufacture/` itself stays in version control through `manufacture/.gitkeep`.
+The example calls `make_box()` and exports the result to `manufacture/scaffold_box.step`, the module's default output directory and filename. An `-o/--outdir` option redirects the output elsewhere, and a `--show` option opens the exported part in the ocp_vscode viewer (section 6). Run the command from the repository root so the default relative path resolves to the tracked `manufacture/` directory. STEP files are generated artifacts and are gitignored (`manufacture/*.step` in `.gitignore`), so `scaffold_box.step` appears on disk but never in git; `manufacture/` itself stays in version control through `manufacture/.gitkeep`.
 
 This is the smoke test for the whole template: after `./setup.sh`, a passing `python -m pytest` and a written `manufacture/scaffold_box.step` prove the environment, the package, and the export path all work.
 
@@ -142,24 +142,18 @@ The template itself, including this guide, was produced through that workflow. Y
 
 ## 6. View models with ocp_vscode
 
-build123d does not include a windowed viewer. The viewing convention for this repository is ocp_vscode, a viewer that pairs a VS Code extension with a small Python server that serves the parts you show from code.
+build123d does not include a windowed viewer. The viewing convention for this repository is ocp_vscode, a viewer that pairs a VS Code extension with a small Python server that serves the parts you show from code. ocp_vscode is a declared dependency, so `setup.sh` installs it alongside build123d and pytest.
 
-ocp_vscode is optional, and `setup.sh` deliberately does not install it: the template's declared dependencies stay exactly build123d and pytest. To use the viewer anyway:
+To view a part:
 
 1. Install the **OCP CAD Viewer** extension in VS Code and follow its setup instructions for this project.
-2. Install the `ocp_vscode` Python package into the virtual environment if you want to show parts from code. This install is for your environment only and does not touch `pyproject.toml`:
+2. Start the viewer's server in the background. It listens on port 3939, so if that port is already in use, a server is already running and you can skip this step:
 
    ```bash
-   .venv/bin/pip install ocp_vscode
+   python -m ocp_vscode &
    ```
 
-3. Start the viewer's server in the background. It listens on port 3939, so if that port is already in use, a server is already running and you can skip this step:
-
-   ```bash
-   .venv/bin/python -m ocp_vscode &
-   ```
-
-4. Add a `show` call to your modeling code, then run that code:
+3. Show a part from your modeling code with a `show` call:
 
    ```python
    from ocp_vscode import show
@@ -168,4 +162,12 @@ ocp_vscode is optional, and `setup.sh` deliberately does not install it: the tem
    show(make_box())
    ```
 
-The part appears in the viewer in VS Code. Consult the build123d materials under `resources/apis/build123d/` for modeling specifics, and `resources/modeling/` for general modeling knowledge and debugging techniques.
+The scaffold example shows its part through a `--show` option on the command line, so you can view the box without editing code:
+
+```bash
+python -m scaffold.example --show          # show the box
+python -m scaffold.example --show box      # show the box by name
+python -m scaffold.example --show assembly # show the whole assembly
+```
+
+The `--show` option takes a part name, or `assembly` to show the entire assembly of parts. The part appears in the viewer in VS Code. Consult the build123d materials under `resources/apis/build123d/` for modeling specifics, and `resources/modeling/` for general modeling knowledge and debugging techniques.

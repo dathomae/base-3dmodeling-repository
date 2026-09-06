@@ -1,6 +1,6 @@
-# Wood Screw Dimensions and Modeling Reference
+# Screw Dimensions and Modeling Reference
 
-This document provides dimensional and general information on wood screws, specifically tailored for 3D modeling purposes (e.g., determining clearance holes, pilot holes, countersink sizes, and head dimensions).
+This document provides dimensional and general information on screws, specifically tailored for 3D modeling purposes (e.g., determining clearance holes, pilot holes, countersink and counterbore sizes, and head dimensions). Wood screws are covered in sections 1–7 and metric machine screws in section 8.
 
 ## 1. Screw Size Chart (Gauge to Diameter)
 
@@ -120,7 +120,58 @@ When designing parts, consider the head style of the screw to determine the appr
 *   *Maxave Group: Wood Screw Size Chart*
 *   *The Fastener Depot: Wood Screws Guide*
 
-## 8. Modeling Screws in Build123D
+## 8. Metric Machine Screw Dimensions
+
+Machine screws are specified by a metric thread size (e.g., M5). ISO metric coarse thread dimensions for M5, from the Accu metric thread chart, are:
+
+| Property | Value |
+|----------|-------|
+| Major diameter | 5.0 mm |
+| Minor diameter | 4.134 mm |
+| Thread pitch | 0.80 mm |
+| Pitch diameter | 4.480 mm |
+| Tapping drill diameter | 4.20 mm |
+| Clearance hole diameter | 5.8 mm |
+
+*Note: clearance hole diameters for M5 commonly range 5.5–6.0 mm; Accu's chart lists 5.8 mm. Tapping drill and clearance values vary with material and fit — test on scrap first.*
+
+### Standardized jig mounting screw
+
+The jigs in this repository use a single standardized mounting screw:
+
+| Property | Value |
+|----------|-------|
+| Thread | M5 (coarse, 0.80 mm pitch) |
+| Length | 30 mm |
+| Thread coverage | Full thread |
+| Head style | Flat head (countersunk / conical), hex socket |
+| Head diameter | 10 mm |
+| Countersink angle | 90° (included) |
+| Head height (cone depth) | ~2.5 mm |
+| Minimum jig base thickness | 4 mm |
+
+The head is a 90° conical (countersunk) flat head. With a 10 mm head diameter over a 5 mm thread, the head cone is (10 − 5) / 2 = 2.5 mm tall, so a base 4 mm thick buries the head below the working face with roughly 1.5 mm of material to spare.
+
+Model the hole with build123d's `CounterSinkHole` (see section 9): the through-hole radius is the clearance radius (5.8 / 2 = 2.9 mm), and the countersink radius is the head radius (10 / 2 = 5 mm) at 90°:
+
+```python
+from build123d import *
+
+# M5 flat-head (countersunk) mounting screw hole
+clearance_radius = 5.8 / 2  # 2.9 mm through-hole for the M5 shank/thread
+head_radius = 10 / 2        # 5.0 mm countersink for the 10 mm head
+
+with BuildPart() as base:
+    Box(50, 50, 4)  # jig base, 4 mm thick
+    with Locations((0, 0, 2)):  # top face
+        CounterSinkHole(
+            radius=clearance_radius,
+            counter_sink_radius=head_radius,
+            counter_sink_angle=90,
+        )
+```
+
+## 9. Modeling Screws in Build123D
 
 When modeling screw holes in Build123D, the `CounterSinkHole` and `CounterBoreHole` part operations are highly recommended over manually combining `Cylinder` and `Cone` objects.
 
