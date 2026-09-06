@@ -52,15 +52,15 @@ Architect note (decomposition): at its natural granularity — one file, a mecha
    a. Replace the current contents (header `# Stories - Table of Contents`, intro line, whatever `## Active Stories` entries are present at execution time — the menora Story004/Story005 entries plus this arc's own Story006–Story010 entries — and whatever `## Finished Stories` rows are present) with the empty skeleton: keep the header and the intro line, add an `## Active Stories` heading with **zero entries** beneath it, and an `## Finished Stories` heading whose table keeps only the header row (`| Story File | Description | State |` and the `|------------|-------------|-------|` separator) with **zero data rows**. The result contains no story links and no dangling references. - Completed
    b. Verify: read the rewritten file back; confirm exactly two section headings (`## Active Stories`, `## Finished Stories`) with no entries between them and the table header, and zero `[Story...](...)` links. - Completed
 
-### Task 2: Rewrite `memory-bank/finished-stories/toc.md` as an empty skeleton — In Progress [Small]
+### Task 2: Rewrite `memory-bank/finished-stories/toc.md` as an empty skeleton — Completed [Small]
 
 Architect note (decomposition): at its natural granularity — one file, the same mechanical pattern as Task 1. `[Small]` (1 file, mechanical, single concern). Routes to `technical-writer-for-story-implementor`.
 
 Path note: the finished-stories toc lives at **`memory-bank/finished-stories/toc.md`** — `finished-stories/` is a sibling of `memory-bank/stories/` in the actual repository layout. The plan's Step 3 lettered text uses this actual path; only the plan's proposed-target-structure diagram shows a nested `stories/finished-stories/`. Use the actual layout — do not create or relocate any directory.
 
-1. Rewrite `memory-bank/finished-stories/toc.md` to the empty skeleton (plan Step 3 (b)) - Not Started
-   a. Replace the current contents (header `# Finished Stories - Table of Contents`, intro line, and whatever `## Finished Stories` data rows are present at execution time — the menora Story001–Story003 rows plus the arc's completed Story006–Story009 rows) with the empty skeleton: keep the header and the intro line, then a `## Finished Stories` table with only the header row (`| Story File | Description | State |` and the separator) and **zero data rows**. - Not Started
-   b. Verify: read the rewritten file back; confirm zero data rows and zero `[Story...](...)` links. - Not Started
+1. Rewrite `memory-bank/finished-stories/toc.md` to the empty skeleton (plan Step 3 (b)) - Completed
+   a. Replace the current contents (header `# Finished Stories - Table of Contents`, intro line, and whatever `## Finished Stories` data rows are present at execution time — the menora Story001–Story003 rows plus the arc's completed Story006–Story009 rows) with the empty skeleton: keep the header and the intro line, then a `## Finished Stories` table with only the header row (`| Story File | Description | State |` and the separator) and **zero data rows**. - Completed
+   b. Verify: read the rewritten file back; confirm zero data rows and zero `[Story...](...)` links. - Completed
 
 ### Task 3: Remove all remaining story files (menora stories, arc meta-stories, walkthrough, then this story) — Not Started
 
