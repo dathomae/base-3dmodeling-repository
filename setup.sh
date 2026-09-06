@@ -15,7 +15,7 @@ python3 -m venv .venv
 echo "Upgrading pip ..."
 .venv/bin/python -m pip install --upgrade pip -q
 
-echo "Installing package in editable mode (build123d + pytest) ..."
+echo "Installing package in editable mode (build123d + pytest + ocp_vscode) ..."
 .venv/bin/python -m pip install -e . -q
 
 cat <<'EOF'
@@ -26,5 +26,5 @@ Next steps:
   .venv/bin/python -m pytest              # run the test suite
   .venv/bin/python -m scaffold.example    # generate manufacture/scaffold_box.step
 
-Model-viewer hint: install and use ocp_vscode in VS Code to view generated .step files.
+Model-viewer hint: start the ocp_vscode server with 'python -m ocp_vscode &' to view parts in VS Code.
 EOF

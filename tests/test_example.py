@@ -1,9 +1,9 @@
 """Tests for the scaffold.example make_box builder (TDD test-first)."""
 
 import pytest
-from build123d import Part
+from build123d import Compound, Part
 
-from scaffold.example import make_box
+from scaffold.example import PARTS, make_assembly, make_box
 
 
 def test_make_box_returns_part():
@@ -26,3 +26,17 @@ def test_make_box_centered_at_origin():
     bb = box.bounding_box()
     assert tuple(bb.min) == pytest.approx((-5, -5, -5))
     assert tuple(bb.max) == pytest.approx((5, 5, 5))
+
+
+def test_parts_registry_contains_box():
+    """PARTS registers the box under the name 'box'."""
+    assert "box" in PARTS
+    assert isinstance(PARTS["box"], Part)
+
+
+def test_make_assembly_is_compound_of_parts():
+    """make_assembly() returns a Compound with the box's geometry."""
+    assembly = make_assembly()
+    assert isinstance(assembly, Compound)
+    size = tuple(assembly.bounding_box().size)
+    assert size == pytest.approx((10, 10, 10))
